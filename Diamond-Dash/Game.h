@@ -63,6 +63,7 @@ private:
 	sf::Texture m_Minecart_Texture;//Minecart Texture
 	sf::Vector2f m_MinecartLocation;//Minecart Location 
 	sf::RectangleShape m_Minecart_Shape;//Minecart rectangle shape 
+	sf::Vector2f m_Minecart_Shape_Location;
 	int m_MinecartFrame{ -1 };
 	const int m_MinecartFrames = 3;
 	float m_MinecartFrameCount = 0.0f;

@@ -122,10 +122,11 @@ void Game::update(sf::Time t_deltaTime)
 void Game::render()
 {
 	m_window.clear(sf::Color::White);
+    m_window.draw(m_Minecart_Shape);
+	m_window.draw(m_Minecart_Sprite);
 	m_window.draw(m_welcomeMessage);
 	m_window.draw(m_logoSprite);
-	m_window.draw(m_Minecart_Shape);
-	m_window.draw(m_Minecart_Sprite);
+	
 	m_window.display();
 	
 }
@@ -142,8 +143,8 @@ void Game::setupFontAndText()
 	m_welcomeMessage.setFont(m_ArialBlackfont);
 	m_welcomeMessage.setString("Diamond-Dash");
 	m_welcomeMessage.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
-	m_welcomeMessage.setPosition(40.0f, 40.0f);
-	m_welcomeMessage.setCharacterSize(80U);
+	m_welcomeMessage.setPosition(200.0f, 530.0f);
+	m_welcomeMessage.setCharacterSize(60U);
 	m_welcomeMessage.setOutlineColor(sf::Color::White);
 	m_welcomeMessage.setFillColor(sf::Color::Blue);
 	m_welcomeMessage.setOutlineThickness(3.0f);
@@ -170,14 +171,15 @@ void Game::SetUpMinecart()
 		std::cout << "ERROR with Minecart" << std::endl;
 	}
 	m_Minecart_Sprite.setTexture(m_Minecart_Texture);
-    m_MinecartLocation = sf::Vector2f{ 375.0f,450.0f };
+    m_MinecartLocation = sf::Vector2f{ 375.0f,400.0f };
 	m_Minecart_Sprite.setPosition(m_MinecartLocation);
 	m_Minecart_Sprite.setTextureRect(sf::IntRect{ 0,0,46,26 });
 	m_Minecart_Sprite.setScale(4.0f, 4.0f);
 	
 
-	m_Minecart_Shape.setPosition(400.0f, 550.0f);
-	m_Minecart_Shape.setSize(sf::Vector2f{ 150.0f,50.0f });
+	m_Minecart_Shape.setPosition(385.0f, 500.0f);
+	m_Minecart_Shape_Location = sf::Vector2f{ 385.0f,500.0f };
+	m_Minecart_Shape.setSize(sf::Vector2f{ 170.0f,50.0f });
 	m_Minecart_Shape.setFillColor(sf::Color::Green);
 
 
@@ -194,18 +196,31 @@ void Game::MoveMinecart()
 	case Direction::None:
 		break;
 	case Direction::Right:
-		Moving.x = -speed;
-		break;
-	case Direction::Left:
 		Moving.x = speed;
 		break;
-	default:
+	case Direction::Left:
+		Moving.x = -speed;
 		break;
 	}
 
 	m_MinecartLocation += Moving;
+	m_Minecart_Shape_Location += Moving;
 	m_Minecart_Sprite.setPosition(m_MinecartLocation);
+	m_Minecart_Shape.setPosition(m_Minecart_Shape_Location);
 	
+	if (m_MinecartLocation.x < 0.0f||m_Minecart_Shape_Location.x < 0.0f)
+	{
+		m_MinecartLocation.x = 1.0f;
+		m_Minecart_Shape_Location.x = 1.0f;
+		speed = speed * -1;
+
+	}
+	if (m_MinecartLocation.x > 630.0f || m_Minecart_Shape_Location.x > 630.0f)
+	{
+		m_MinecartLocation.x = 629.0f;
+		m_Minecart_Shape_Location.x = 629.0f;
+		speed = speed * -1;
+	}
 
 }
 
