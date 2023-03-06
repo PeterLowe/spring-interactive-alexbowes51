@@ -114,6 +114,7 @@ void Game::update(sf::Time t_deltaTime)
 		m_window.close();
 	}
 	AnimateMinecart();
+	AnimateCave();
 }
 
 /// <summary>
@@ -166,12 +167,58 @@ void Game::setupSprite()
 
 void Game::SetupCave()
 {
-	if (!m_Cave_Texture.loadFromFile("ASSETS\\IMAGES\\Cave.png"))
+	if (!m_Cave_Texture.loadFromFile("ASSETS\\IMAGES\\Cave_Animation.png"))
 	{
 		std::cout << "ERROR with Cave" << std::endl;
 	}
 	m_Cave_Sprite.setTexture(m_Cave_Texture);
+	m_Cave_Sprite.setTextureRect(sf::IntRect{ 0,0,100,100 });
 	m_Cave_Sprite.setScale(8.0f, 10.0f);
+}
+
+void Game::AnimateMinecart()
+{
+	int frame;
+	const int Frame_Width = 45;
+	const int Frame_Height = 23;
+
+	m_FrameCount += m_Minecart_FrameIncrement;
+	frame = static_cast<int>(m_FrameCount);
+	if (frame >= m_MinecartFrames)
+	{
+		frame = 0;
+		m_FrameCount = 0;
+	}
+	if (frame != m_MinecartFrame)
+	{
+		m_MinecartFrame = frame;
+		m_Minecart_Sprite.setTextureRect(sf::IntRect{ frame * 100,0,Frame_Width,Frame_Height });
+	}
+}
+
+void Game::AnimateCave()
+{
+	int frame;
+	const int Frame_Width = 100;
+	const int Frame_Height = 100;
+
+	m_FrameCount += m_Cave_Frame_Increment;
+	frame = static_cast<int>(m_FrameCount);
+	if (frame >= m_CaveFrames)
+	{
+		frame = 0;
+		m_FrameCount = 0;
+	}
+	if (frame != m_CaveFrame)
+	{
+		m_CaveFrame = frame;
+		m_Cave_Sprite.setTextureRect(sf::IntRect{ frame * 100,0,Frame_Width,Frame_Height });
+	}
+}
+
+void Game::AnimateCoveryerBelt()
+{
+
 }
 
 void Game::SetUpCoveyerBelt()
@@ -211,7 +258,7 @@ void Game::SetUpMinecart()
     
 	
 	m_Rail_Shape.setFillColor(sf::Color::Blue);
-	m_Rail_Shape.setSize(sf::Vector2f{ 0.0f,30.0f });
+	m_Rail_Shape.setSize(sf::Vector2f{ 1000.0f,30.0f });
 	m_Rail_Shape.setPosition(0.0f,800.0f);
 
 	
@@ -258,24 +305,5 @@ void Game::MoveMinecart()
 
 }
 
-void Game::AnimateMinecart()
-{
-	int frame;
-	const int Frame_Width = 45;
-	const int Frame_Height = 23;
-
-	m_MinecartFrameCount += m_MincecartFrameIncrement;
-	frame = static_cast<int>(m_MinecartFrameCount);
-	if(frame >= m_MinecartFrames)
-	{ 
-		frame = 0;
-		m_MinecartFrameCount = 0;
-	}
-	if (frame != m_MinecartFrame)
-	{
-		m_MinecartFrame = frame;
-		m_Minecart_Sprite.setTextureRect(sf::IntRect{ frame * 100,0,Frame_Width,Frame_Height });
-	}
-}
 
 

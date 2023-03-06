@@ -47,13 +47,15 @@ private:
 	void render();
 	
 	
-	void setupFontAndText();
-	void setupSprite();
-	void SetUpCoveyerBelt();
-	void SetUpMinecart();
-	void MoveMinecart();
-	void AnimateMinecart();
-	void SetupCave();
+	void setupFontAndText();//sets up text and fonts 
+	void setupSprite();//sets up sprites 
+	void SetUpCoveyerBelt();//sets ups converyer belts 
+	void SetUpMinecart();//sets up minecart 
+	void MoveMinecart();//moves minecart 
+	void AnimateMinecart();//animates minecart 
+	void SetupCave();//sets up cave 
+	void AnimateCave();//animates cave 
+	void AnimateCoveryerBelt();//animates coveryer belt 
 
 
 
@@ -75,18 +77,21 @@ private:
 	sf::Vector2f m_Minecart_Shape_Location;
 	int m_MinecartFrame{ -1 };//will start changing the sprite 
 	const int m_MinecartFrames = 4;//the amount of frames 
-	float m_MinecartFrameCount = 0.0f;//frame counter for minecart animation 
-	float m_MincecartFrameIncrement = 0.02f;//frame increament 
+	float m_FrameCount = 0.0f;//frame counter for minecart animation 
+	float m_Minecart_FrameIncrement = 0.02f;//frame increament 
 	Direction m_Direction = Direction::None;//Direction of the Minecart 
 	float speed = 3.0f;// speed of minecart 
 
-	sf::Sprite m_Minecart_Rail_Sprite;
-	sf::Texture m_Minecart_Rail_Texture;
-	sf::Vector2f m_Minecart_Rail_Location;
-	sf::RectangleShape m_Rail_Shape;
+	sf::Sprite m_Minecart_Rail_Sprite;//Rail sprite 
+	sf::Texture m_Minecart_Rail_Texture;//Rail texture
+	sf::Vector2f m_Minecart_Rail_Location;//Rail location 
+	sf::RectangleShape m_Rail_Shape;//Rail shape 
 
-	sf::Sprite m_Cave_Sprite;
-	sf::Texture m_Cave_Texture;
+	sf::Sprite m_Cave_Sprite;//Cave sprite
+	sf::Texture m_Cave_Texture;//Cave texture
+	const int m_CaveFrames = 12;//Amount of frame 
+	int m_CaveFrame{ -1 };//Will change sprite 
+	float m_Cave_Frame_Increment = 0.005f;//frame increase 
 
 
 	bool m_exitGame; // control exiting game
