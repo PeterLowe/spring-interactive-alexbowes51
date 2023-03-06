@@ -65,10 +65,20 @@ private:
 	sf::Texture m_logoTexture; // texture used for sfml logo
 	sf::Sprite m_logoSprite; // sprite used for sfml logo
 
-	sf::Sprite m_ConveryBelt_Sprite;//Convery belt sprite 
-	sf::Texture m_ConveryBelt_Texture;//Convery belt Texture 
-	sf::Vector2f m_ConveryBeltLocation;//Convery belt Location
-	sf::RectangleShape m_ConveryBelt_Shape;//Convery belt rectangle shape
+	sf::Sprite m_ConveryBelt_Sprite_1;
+	sf::Sprite m_ConveryBelt_Sprite_2;
+	sf::Sprite m_ConveryBelt_Sprite_3;//Convery belt sprite 
+	sf::Texture m_ConveryBelt_Texture_1;
+	sf::Texture m_ConveryBelt_Texture_2;
+	sf::Texture m_ConveryBelt_Texture_3;//Convery belt Texture 
+	sf::Vector2f m_ConveryBeltLocation_1;//Convery belt Location
+	sf::Vector2f m_ConveryBeltLocation_2;
+	sf::Vector2f m_ConveryBeltLocation_3;
+	sf::RectangleShape m_ConveryBelt_Shape_1;//Convery belt rectangle shape 1
+	sf::RectangleShape m_ConveryBelt_Shape_2;
+	sf::RectangleShape m_ConveryBelt_Shape_3;
+
+
 
 	sf::Sprite m_Minecart_Sprite;//Minecart Sprite 
 	sf::Texture m_Minecart_Texture;//Minecart Texture
@@ -89,9 +99,11 @@ private:
 
 	sf::Sprite m_Cave_Sprite;//Cave sprite
 	sf::Texture m_Cave_Texture;//Cave texture
-	const int m_CaveFrames = 12;//Amount of frame 
+	const int m_CaveFrames = 7;//Amount of frame 
 	int m_CaveFrame{ -1 };//Will change sprite 
 	float m_Cave_Frame_Increment = 0.005f;//frame increase 
+
+	
 
 
 	bool m_exitGame; // control exiting game

@@ -128,7 +128,12 @@ void Game::render()
     m_window.draw(m_Rail_Shape);
 	m_window.draw(m_Minecart_Sprite);
 	m_window.draw(m_Minecart_Rail_Sprite);
-	
+	m_window.draw(m_ConveryBelt_Shape_1);
+	m_window.draw(m_ConveryBelt_Shape_2);
+	m_window.draw(m_ConveryBelt_Shape_3);
+	m_window.draw(m_ConveryBelt_Sprite_1);
+	m_window.draw(m_ConveryBelt_Sprite_2);
+	m_window.draw(m_ConveryBelt_Sprite_3);
 	m_window.draw(m_welcomeMessage);
 	m_window.draw(m_logoSprite);
 	
@@ -223,11 +228,58 @@ void Game::AnimateCoveryerBelt()
 
 void Game::SetUpCoveyerBelt()
 {
-	
+
+	m_ConveryBelt_Shape_1.setPosition(100.0f, 00.0f);
+	m_ConveryBelt_Shape_1.setFillColor(sf::Color::Blue);
+	m_ConveryBelt_Shape_1.setSize(sf::Vector2f{ 100.0f,100.0f });
+	m_ConveryBeltLocation_1 = sf::Vector2f{ 70.0f,0.0f };
+
+	m_ConveryBelt_Shape_2.setPosition(350.0f, 00.0f);
+	m_ConveryBelt_Shape_2.setFillColor(sf::Color::Blue);
+	m_ConveryBelt_Shape_2.setSize(sf::Vector2f{ 100.0f,100.0f });
+	m_ConveryBeltLocation_2 = sf::Vector2f{ 320.0f,0.0f };
+
+	m_ConveryBelt_Shape_3.setPosition(600.0f, 00.0f);
+	m_ConveryBelt_Shape_3.setFillColor(sf::Color::Blue);
+	m_ConveryBelt_Shape_3.setSize(sf::Vector2f{ 100.0f,100.0f });
+	m_ConveryBeltLocation_3 = sf::Vector2f{ 570.0f,0.0f };
+
+	if (!m_ConveryBelt_Texture_1.loadFromFile("ASSETS\\IMAGES\\ConveryBelt_Animation.png"))
+	{
+		std::cout << "ERROR with ConveryerBelt" << std::endl;
+	}
+	m_ConveryBelt_Sprite_1.setTexture(m_ConveryBelt_Texture_1);
+	m_ConveryBelt_Sprite_1.setTextureRect(sf::IntRect{ 0,0,38,24 });
+	m_ConveryBelt_Sprite_1.setScale(4.5f, 4.5f);
+	m_ConveryBelt_Sprite_1.setPosition(m_ConveryBeltLocation_1);
+
+	if (!m_ConveryBelt_Texture_2.loadFromFile("ASSETS\\IMAGES\\ConveryBelt_Animation.png"))
+	{
+		std::cout << "ERROR with ConveryerBelt" << std::endl;
+	}
+	m_ConveryBelt_Sprite_2.setTexture(m_ConveryBelt_Texture_2);
+	m_ConveryBelt_Sprite_2.setTextureRect(sf::IntRect{ 0,0,38,24 });
+	m_ConveryBelt_Sprite_2.setScale(4.5f, 4.5f);
+    
+	m_ConveryBelt_Sprite_2.setPosition(m_ConveryBeltLocation_2);
+	if (!m_ConveryBelt_Texture_3.loadFromFile("ASSETS\\IMAGES\\ConveryBelt_Animation.png"))
+	{
+		std::cout << "ERROR with ConveryerBelt" << std::endl;
+	}
+	m_ConveryBelt_Sprite_3.setTexture(m_ConveryBelt_Texture_3);
+	m_ConveryBelt_Sprite_3.setTextureRect(sf::IntRect{ 0,0,38,24 });
+	m_ConveryBelt_Sprite_3.setScale(4.5f, 4.5f);
+	m_ConveryBelt_Sprite_3.setPosition(m_ConveryBeltLocation_3);
+
 }
 
 void Game::SetUpMinecart()
 {
+	m_Minecart_Shape.setPosition(450.0f, 800.0f);
+	m_Minecart_Shape_Location = sf::Vector2f{ 450.0f,800.0f };
+	m_Minecart_Shape.setSize(sf::Vector2f{ 170.0f,50.0f });
+	m_Minecart_Shape.setFillColor(sf::Color::Green);
+
 	if (!m_Minecart_Texture.loadFromFile("ASSETS\\IMAGES\\Minecart.png"))
 	{
 		std::cout << "ERROR with Minecart" << std::endl;
@@ -239,11 +291,7 @@ void Game::SetUpMinecart()
 	m_Minecart_Sprite.setScale(4.0f, 4.0f);
 	
 
-	m_Minecart_Shape.setPosition(450.0f, 800.0f);
-	m_Minecart_Shape_Location = sf::Vector2f{ 450.0f,800.0f };
-	m_Minecart_Shape.setSize(sf::Vector2f{ 170.0f,50.0f });
-	m_Minecart_Shape.setFillColor(sf::Color::Green);
-
+	
 	if (!m_Minecart_Rail_Texture.loadFromFile("ASSETS\\IMAGES\\Minecart_Rail.png"))
 	{
 		std::cout << "ERROR with Rail" << std::endl;
