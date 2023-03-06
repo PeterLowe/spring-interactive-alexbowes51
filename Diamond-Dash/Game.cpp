@@ -17,7 +17,7 @@
 /// load and setup thne image
 /// </summary>
 Game::Game() :
-	m_window{ sf::VideoMode{ 800U, 600U, 32U }, "SFML Game" },
+	m_window{ sf::VideoMode{Screen_Height, Screen_Width,32U }, "DIAMOND-DASH" },
 	m_exitGame{false} //when true game will exit
 {
 	setupFontAndText(); // load font 
@@ -122,8 +122,12 @@ void Game::update(sf::Time t_deltaTime)
 void Game::render()
 {
 	m_window.clear(sf::Color::White);
+	m_window.draw(m_Cave_Sprite);
     m_window.draw(m_Minecart_Shape);
+    m_window.draw(m_Rail_Shape);
 	m_window.draw(m_Minecart_Sprite);
+	m_window.draw(m_Minecart_Rail_Sprite);
+	
 	m_window.draw(m_welcomeMessage);
 	m_window.draw(m_logoSprite);
 	
@@ -143,7 +147,7 @@ void Game::setupFontAndText()
 	m_welcomeMessage.setFont(m_ArialBlackfont);
 	m_welcomeMessage.setString("Diamond-Dash");
 	m_welcomeMessage.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
-	m_welcomeMessage.setPosition(200.0f, 530.0f);
+	m_welcomeMessage.setPosition(200.0f, 900.0f);
 	m_welcomeMessage.setCharacterSize(60U);
 	m_welcomeMessage.setOutlineColor(sf::Color::White);
 	m_welcomeMessage.setFillColor(sf::Color::Blue);
@@ -157,6 +161,17 @@ void Game::setupFontAndText()
 void Game::setupSprite()
 {
 	SetUpMinecart();
+	SetupCave();
+}
+
+void Game::SetupCave()
+{
+	if (!m_Cave_Texture.loadFromFile("ASSETS\\IMAGES\\Cave.png"))
+	{
+		std::cout << "ERROR with Cave" << std::endl;
+	}
+	m_Cave_Sprite.setTexture(m_Cave_Texture);
+	m_Cave_Sprite.setScale(8.0f, 10.0f);
 }
 
 void Game::SetUpCoveyerBelt()
@@ -171,19 +186,37 @@ void Game::SetUpMinecart()
 		std::cout << "ERROR with Minecart" << std::endl;
 	}
 	m_Minecart_Sprite.setTexture(m_Minecart_Texture);
-    m_MinecartLocation = sf::Vector2f{ 375.0f,400.0f };
+    m_MinecartLocation = sf::Vector2f{ 450.0f,710.0f };
 	m_Minecart_Sprite.setPosition(m_MinecartLocation);
 	m_Minecart_Sprite.setTextureRect(sf::IntRect{ 0,0,46,26 });
 	m_Minecart_Sprite.setScale(4.0f, 4.0f);
 	
 
-	m_Minecart_Shape.setPosition(385.0f, 500.0f);
-	m_Minecart_Shape_Location = sf::Vector2f{ 385.0f,500.0f };
+	m_Minecart_Shape.setPosition(450.0f, 800.0f);
+	m_Minecart_Shape_Location = sf::Vector2f{ 450.0f,800.0f };
 	m_Minecart_Shape.setSize(sf::Vector2f{ 170.0f,50.0f });
 	m_Minecart_Shape.setFillColor(sf::Color::Green);
 
+	if (!m_Minecart_Rail_Texture.loadFromFile("ASSETS\\IMAGES\\Minecart_Rail.png"))
+	{
+		std::cout << "ERROR with Rail" << std::endl;
+	}
 
+	m_Minecart_Rail_Sprite.setTexture(m_Minecart_Rail_Texture);
+	m_Minecart_Rail_Location = sf::Vector2f{0.0f, 733.0f};
+    m_Minecart_Rail_Sprite.setPosition(m_Minecart_Rail_Location);
+	m_Minecart_Rail_Sprite.setScale(4.5f, 4.5f);
+	m_Minecart_Rail_Texture.setRepeated(true);
+	m_Minecart_Rail_Sprite.setTextureRect(sf::IntRect{ 0,0,200,30});
+    
+	
+	m_Rail_Shape.setFillColor(sf::Color::Blue);
+	m_Rail_Shape.setSize(sf::Vector2f{ 0.0f,30.0f });
+	m_Rail_Shape.setPosition(0.0f,800.0f);
 
+	
+	
+	
 
 }
 
@@ -212,14 +245,15 @@ void Game::MoveMinecart()
 	{
 		m_MinecartLocation.x = 1.0f;
 		m_Minecart_Shape_Location.x = 1.0f;
-		speed = speed * -1;
-
+		m_Direction = Direction::Right;
+  
 	}
-	if (m_MinecartLocation.x > 630.0f || m_Minecart_Shape_Location.x > 630.0f)
+	if (m_MinecartLocation.x > 618.0f || m_Minecart_Shape_Location.x > 618.0f)
 	{
-		m_MinecartLocation.x = 629.0f;
-		m_Minecart_Shape_Location.x = 629.0f;
-		speed = speed * -1;
+		m_MinecartLocation.x = 618.0f;
+		m_Minecart_Shape_Location.x = 618.0f;
+		m_Direction = Direction::Left;
+
 	}
 
 }
@@ -228,7 +262,7 @@ void Game::AnimateMinecart()
 {
 	int frame;
 	const int Frame_Width = 45;
-	const int Frame_Height = 26;
+	const int Frame_Height = 23;
 
 	m_MinecartFrameCount += m_MincecartFrameIncrement;
 	frame = static_cast<int>(m_MinecartFrameCount);
@@ -243,3 +277,5 @@ void Game::AnimateMinecart()
 		m_Minecart_Sprite.setTextureRect(sf::IntRect{ frame * 100,0,Frame_Width,Frame_Height });
 	}
 }
+
+
