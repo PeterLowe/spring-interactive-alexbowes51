@@ -105,7 +105,7 @@ private:
 
 	
 
-
+	bool m_Graphics{ false };
 	bool m_exitGame; // control exiting game
 
 };

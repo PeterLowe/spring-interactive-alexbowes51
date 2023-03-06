@@ -100,6 +100,10 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_Direction = Direction::Right;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
+	{
+		m_Graphics = !m_Graphics;
+	}
 	MoveMinecart();
 }
 
@@ -122,21 +126,27 @@ void Game::update(sf::Time t_deltaTime)
 /// </summary>
 void Game::render()
 {
+   
 	m_window.clear(sf::Color::White);
-	m_window.draw(m_Cave_Sprite);
-    m_window.draw(m_Minecart_Shape);
-    m_window.draw(m_Rail_Shape);
-	m_window.draw(m_Minecart_Sprite);
-	m_window.draw(m_Minecart_Rail_Sprite);
-	m_window.draw(m_ConveryBelt_Shape_1);
-	m_window.draw(m_ConveryBelt_Shape_2);
-	m_window.draw(m_ConveryBelt_Shape_3);
-	m_window.draw(m_ConveryBelt_Sprite_1);
+    
+	if (m_Graphics == true)
+	{
+    m_window.draw(m_Cave_Sprite);
+    m_window.draw(m_Minecart_Rail_Sprite);
+    m_window.draw(m_Minecart_Sprite);
+    m_window.draw(m_ConveryBelt_Sprite_1);
 	m_window.draw(m_ConveryBelt_Sprite_2);
 	m_window.draw(m_ConveryBelt_Sprite_3);
-	m_window.draw(m_welcomeMessage);
-	m_window.draw(m_logoSprite);
-	
+	}
+	else
+	{
+		m_window.draw(m_Minecart_Shape);
+		m_window.draw(m_Rail_Shape);
+		m_window.draw(m_ConveryBelt_Shape_1);
+		m_window.draw(m_ConveryBelt_Shape_2);
+		m_window.draw(m_ConveryBelt_Shape_3);
+	}
+    m_window.draw(m_welcomeMessage);
 	m_window.display();
 	
 }
@@ -275,9 +285,9 @@ void Game::SetUpCoveyerBelt()
 
 void Game::SetUpMinecart()
 {
-	m_Minecart_Shape.setPosition(450.0f, 800.0f);
-	m_Minecart_Shape_Location = sf::Vector2f{ 450.0f,800.0f };
-	m_Minecart_Shape.setSize(sf::Vector2f{ 170.0f,50.0f });
+	m_Minecart_Shape.setPosition(450.0f, 710.0f);
+	m_Minecart_Shape_Location = sf::Vector2f{ 450.0f,710.0f };
+	m_Minecart_Shape.setSize(sf::Vector2f{ 170.0f,100.0f });
 	m_Minecart_Shape.setFillColor(sf::Color::Green);
 
 	if (!m_Minecart_Texture.loadFromFile("ASSETS\\IMAGES\\Minecart.png"))
