@@ -60,10 +60,10 @@ private:
 
 
 	sf::RenderWindow m_window; // main SFML window
-	sf::Font m_ArialBlackfont; // font used by message
-	sf::Text m_welcomeMessage; // text used for message on screen
-	sf::Texture m_logoTexture; // texture used for sfml logo
-	sf::Sprite m_logoSprite; // sprite used for sfml logo
+	sf::Font m_CYBER_font; // font used by message
+	sf::Text m_Title; // text used for message on screen
+	sf::Text m_LIVES;
+	sf::Text m_SCORE;
 
 	sf::Sprite m_ConveryBelt_Sprite_1;
 	sf::Sprite m_ConveryBelt_Sprite_2;
@@ -78,17 +78,13 @@ private:
 	sf::RectangleShape m_ConveryBelt_Shape_2;
 	sf::RectangleShape m_ConveryBelt_Shape_3;
 
-
+	
 
 	sf::Sprite m_Minecart_Sprite;//Minecart Sprite 
 	sf::Texture m_Minecart_Texture;//Minecart Texture
 	sf::Vector2f m_MinecartLocation;//Minecart Location 
 	sf::RectangleShape m_Minecart_Shape;//Minecart rectangle shape 
 	sf::Vector2f m_Minecart_Shape_Location;
-	int m_MinecartFrame{ -1 };//will start changing the sprite 
-	const int m_MinecartFrames = 4;//the amount of frames 
-	float m_FrameCount = 0.0f;//frame counter for minecart animation 
-	float m_Minecart_FrameIncrement = 0.02f;//frame increament 
 	Direction m_Direction = Direction::None;//Direction of the Minecart 
 	float speed = 3.0f;// speed of minecart 
 
@@ -99,9 +95,21 @@ private:
 
 	sf::Sprite m_Cave_Sprite;//Cave sprite
 	sf::Texture m_Cave_Texture;//Cave texture
-	const int m_CaveFrames = 7;//Amount of frame 
+
+    int m_ConveryerFrame{ -1 };
+	float m_Converyer_Frame_Increment = 0.02f;
+	const int m_ConveryerFrames = 2;
+	float m_CB_FrameCount = 0.0f;
+
+    int m_MinecartFrame{ -1 };//will start changing the sprite 
+	const int m_MinecartFrames = 4;//the amount of frames 
+    float m_MC_FrameCount = 0.0f;
+    float m_Minecart_FrameIncrement = 0.05f;//frame increament 
+
+	float m_CV_FrameCount = 0.0f;
+    const int m_CaveFrames = 7;//Amount of frame 
 	int m_CaveFrame{ -1 };//Will change sprite 
-	float m_Cave_Frame_Increment = 0.005f;//frame increase 
+	float m_Cave_Frame_Increment = 0.025f;//frame increas
 
 	
 

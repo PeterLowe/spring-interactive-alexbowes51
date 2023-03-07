@@ -117,8 +117,10 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
-	AnimateMinecart();
+	
+	AnimateCoveryerBelt();
 	AnimateCave();
+	AnimateMinecart();
 }
 
 /// <summary>
@@ -146,7 +148,9 @@ void Game::render()
 		m_window.draw(m_ConveryBelt_Shape_2);
 		m_window.draw(m_ConveryBelt_Shape_3);
 	}
-    m_window.draw(m_welcomeMessage);
+    m_window.draw(m_Title);
+	m_window.draw(m_LIVES);
+	m_window.draw(m_SCORE);
 	m_window.display();
 	
 }
@@ -156,19 +160,37 @@ void Game::render()
 /// </summary>
 void Game::setupFontAndText()
 {
-	if (!m_ArialBlackfont.loadFromFile("ASSETS\\FONTS\\ariblk.ttf"))
+	if (!m_CYBER_font.loadFromFile("ASSETS\\FONTS\\Bazer-K7vpp.ttf"))
 	{
 		std::cout << "problem loading arial black font" << std::endl;
 	}
-	m_welcomeMessage.setFont(m_ArialBlackfont);
-	m_welcomeMessage.setString("Diamond-Dash");
-	m_welcomeMessage.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
-	m_welcomeMessage.setPosition(200.0f, 900.0f);
-	m_welcomeMessage.setCharacterSize(60U);
-	m_welcomeMessage.setOutlineColor(sf::Color::White);
-	m_welcomeMessage.setFillColor(sf::Color::Blue);
-	m_welcomeMessage.setOutlineThickness(3.0f);
+	m_Title.setFont(m_CYBER_font);
+	m_Title.setString("Diamond-Dash");
+	m_Title.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
+	m_Title.setPosition(150.0f, 810.0f);
+	m_Title.setCharacterSize(40U);
+	m_Title.setOutlineColor(sf::Color(255,200,100,200));
+	m_Title.setFillColor(sf::Color::Black);
+	m_Title.setOutlineThickness(2.0f);
 
+
+	m_LIVES.setFont(m_CYBER_font);
+	m_LIVES.setString("Diamond-Dash");
+	m_LIVES.setCharacterSize(25U);//the size of the texted
+	m_LIVES.setPosition(40.0f, 950.0f);// the position of the text
+	m_LIVES.setFillColor(sf::Color::Yellow);// the color of the text 
+	m_LIVES.setFont(m_CYBER_font);// the type of font for text
+	m_LIVES.setString("LIVES = ");// the message displayed for the text 
+	m_LIVES.setOutlineColor(sf::Color::Black);//the outline color of the text 
+	m_LIVES.setOutlineThickness(2.0f);//the size of the outline for text 
+
+	m_SCORE.setCharacterSize(25U);//the size of the texted
+	m_SCORE.setPosition(40.0f, 900.0f);// the position of the text
+	m_SCORE.setFillColor(sf::Color::Yellow);// the color of the text 
+	m_SCORE.setFont(m_CYBER_font);// the type of font 
+	m_SCORE.setString("SCORE = ");// the message displayed for the text
+	m_SCORE.setOutlineColor(sf::Color::Black);//the outline color of the text 
+	m_SCORE.setOutlineThickness(2.0f);//the outline size of the text
 }
 
 /// <summary>
@@ -197,12 +219,12 @@ void Game::AnimateMinecart()
 	const int Frame_Width = 45;
 	const int Frame_Height = 23;
 
-	m_FrameCount += m_Minecart_FrameIncrement;
-	frame = static_cast<int>(m_FrameCount);
+	m_MC_FrameCount += m_Minecart_FrameIncrement;
+	frame = static_cast<int>(m_MC_FrameCount);
 	if (frame >= m_MinecartFrames)
 	{
 		frame = 0;
-		m_FrameCount = 0;
+		m_MC_FrameCount = 0;
 	}
 	if (frame != m_MinecartFrame)
 	{
@@ -217,12 +239,12 @@ void Game::AnimateCave()
 	const int Frame_Width = 100;
 	const int Frame_Height = 100;
 
-	m_FrameCount += m_Cave_Frame_Increment;
-	frame = static_cast<int>(m_FrameCount);
+	m_CV_FrameCount += m_Cave_Frame_Increment;
+	frame = static_cast<int>(m_CV_FrameCount);
 	if (frame >= m_CaveFrames)
 	{
 		frame = 0;
-		m_FrameCount = 0;
+		m_CV_FrameCount = 0;
 	}
 	if (frame != m_CaveFrame)
 	{
@@ -233,6 +255,24 @@ void Game::AnimateCave()
 
 void Game::AnimateCoveryerBelt()
 {
+	int frame;
+	const int Frame_Width = 44;
+	const int Frame_Height = 24;
+	m_CB_FrameCount += m_Converyer_Frame_Increment;
+	frame = static_cast<int>(m_CB_FrameCount);
+	if (frame >= m_ConveryerFrames)
+	{
+		frame = 0;
+		m_CB_FrameCount = 0;
+	}
+	if (frame != m_ConveryerFrame)
+	{
+		m_ConveryerFrame = frame;
+	    m_ConveryBelt_Sprite_1.setTextureRect(sf::IntRect{ frame * 44,0,Frame_Width,Frame_Height });
+		m_ConveryBelt_Sprite_2.setTextureRect(sf::IntRect{ frame * 44,0,Frame_Width,Frame_Height });
+		m_ConveryBelt_Sprite_3.setTextureRect(sf::IntRect{ frame * 44,0,Frame_Width,Frame_Height });
+		
+	}
 
 }
 
@@ -240,17 +280,17 @@ void Game::SetUpCoveyerBelt()
 {
 
 	m_ConveryBelt_Shape_1.setPosition(100.0f, 00.0f);
-	m_ConveryBelt_Shape_1.setFillColor(sf::Color::Blue);
+	m_ConveryBelt_Shape_1.setFillColor(sf::Color::Black);
 	m_ConveryBelt_Shape_1.setSize(sf::Vector2f{ 100.0f,100.0f });
 	m_ConveryBeltLocation_1 = sf::Vector2f{ 70.0f,0.0f };
 
 	m_ConveryBelt_Shape_2.setPosition(350.0f, 00.0f);
-	m_ConveryBelt_Shape_2.setFillColor(sf::Color::Blue);
+	m_ConveryBelt_Shape_2.setFillColor(sf::Color::Black);
 	m_ConveryBelt_Shape_2.setSize(sf::Vector2f{ 100.0f,100.0f });
 	m_ConveryBeltLocation_2 = sf::Vector2f{ 320.0f,0.0f };
 
 	m_ConveryBelt_Shape_3.setPosition(600.0f, 00.0f);
-	m_ConveryBelt_Shape_3.setFillColor(sf::Color::Blue);
+	m_ConveryBelt_Shape_3.setFillColor(sf::Color::Black);
 	m_ConveryBelt_Shape_3.setSize(sf::Vector2f{ 100.0f,100.0f });
 	m_ConveryBeltLocation_3 = sf::Vector2f{ 570.0f,0.0f };
 
@@ -270,8 +310,8 @@ void Game::SetUpCoveyerBelt()
 	m_ConveryBelt_Sprite_2.setTexture(m_ConveryBelt_Texture_2);
 	m_ConveryBelt_Sprite_2.setTextureRect(sf::IntRect{ 0,0,38,24 });
 	m_ConveryBelt_Sprite_2.setScale(4.5f, 4.5f);
-    
-	m_ConveryBelt_Sprite_2.setPosition(m_ConveryBeltLocation_2);
+    m_ConveryBelt_Sprite_2.setPosition(m_ConveryBeltLocation_2);
+
 	if (!m_ConveryBelt_Texture_3.loadFromFile("ASSETS\\IMAGES\\ConveryBelt_Animation.png"))
 	{
 		std::cout << "ERROR with ConveryerBelt" << std::endl;
@@ -350,14 +390,12 @@ void Game::MoveMinecart()
 	{
 		m_MinecartLocation.x = 1.0f;
 		m_Minecart_Shape_Location.x = 1.0f;
-		m_Direction = Direction::Right;
-  
+ 
 	}
 	if (m_MinecartLocation.x > 618.0f || m_Minecart_Shape_Location.x > 618.0f)
 	{
 		m_MinecartLocation.x = 618.0f;
 		m_Minecart_Shape_Location.x = 618.0f;
-		m_Direction = Direction::Left;
 
 	}
 
