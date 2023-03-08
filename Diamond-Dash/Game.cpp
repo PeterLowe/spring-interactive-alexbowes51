@@ -7,6 +7,8 @@
 
 #include "Game.h"
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 
 
@@ -17,7 +19,7 @@
 /// load and setup thne image
 /// </summary>
 Game::Game() :
-	m_window{ sf::VideoMode{Screen_Height, Screen_Width,32U }, "DIAMOND-DASH" },
+	m_window{ sf::VideoMode{Screen_Height, Screen_Width,32U }, "DIAMOND-DASH" },//will create a window the size of 1000 x 800
 	m_exitGame{false} //when true game will exit
 {
 	setupFontAndText(); // load font 
@@ -100,9 +102,9 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_Direction = Direction::Right;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))//if tab is pressed 
 	{
-		m_Graphics = !m_Graphics;
+		m_Graphics = !m_Graphics;//m_graphics is set to false 
 	}
 	MoveMinecart();
 }
@@ -121,6 +123,7 @@ void Game::update(sf::Time t_deltaTime)
 	AnimateCoveryerBelt();
 	AnimateCave();
 	AnimateMinecart();
+	move_Falling_Objects(); 
 }
 
 /// <summary>
@@ -131,7 +134,7 @@ void Game::render()
    
 	m_window.clear(sf::Color::White);
     
-	if (m_Graphics == true)
+    if (m_Graphics == true)//if graphics is = true draw all thats in the if statement 
 	{
     m_window.draw(m_Cave_Sprite);
     m_window.draw(m_Minecart_Rail_Sprite);
@@ -140,13 +143,23 @@ void Game::render()
 	m_window.draw(m_ConveryBelt_Sprite_2);
 	m_window.draw(m_ConveryBelt_Sprite_3);
 	}
-	else
+	else//if graphics is = false draw the rest 
 	{
 		m_window.draw(m_Minecart_Shape);
 		m_window.draw(m_Rail_Shape);
+        m_window.draw(m_Rock_1);
+		m_window.draw(m_Rock_2);
+		m_window.draw(m_Rock_3);
+		m_window.draw(m_Diamond_1);
+		m_window.draw(m_Diamond_2);
+		m_window.draw(m_Diamond_3);
+        m_window.draw(m_FakeDiamond_1);
+		m_window.draw(m_FakeDiamond_2);
+		m_window.draw(m_FakeDiamond_3);
 		m_window.draw(m_ConveryBelt_Shape_1);
 		m_window.draw(m_ConveryBelt_Shape_2);
 		m_window.draw(m_ConveryBelt_Shape_3);
+		
 	}
     m_window.draw(m_Title);
 	m_window.draw(m_LIVES);
@@ -169,9 +182,9 @@ void Game::setupFontAndText()
 	m_Title.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
 	m_Title.setPosition(150.0f, 810.0f);
 	m_Title.setCharacterSize(40U);
-	m_Title.setOutlineColor(sf::Color(255,200,100,200));
-	m_Title.setFillColor(sf::Color::Black);
-	m_Title.setOutlineThickness(2.0f);
+	m_Title.setOutlineColor(sf::Color::Black);
+	m_Title.setFillColor(sf::Color::Blue);
+	m_Title.setOutlineThickness(3.5f);
 
 
 	m_LIVES.setFont(m_CYBER_font);
@@ -182,7 +195,7 @@ void Game::setupFontAndText()
 	m_LIVES.setFont(m_CYBER_font);// the type of font for text
 	m_LIVES.setString("LIVES = ");// the message displayed for the text 
 	m_LIVES.setOutlineColor(sf::Color::Black);//the outline color of the text 
-	m_LIVES.setOutlineThickness(2.0f);//the size of the outline for text 
+	m_LIVES.setOutlineThickness(3.0f);//the size of the outline for text 
 
 	m_SCORE.setCharacterSize(25U);//the size of the texted
 	m_SCORE.setPosition(40.0f, 900.0f);// the position of the text
@@ -190,7 +203,7 @@ void Game::setupFontAndText()
 	m_SCORE.setFont(m_CYBER_font);// the type of font 
 	m_SCORE.setString("SCORE = ");// the message displayed for the text
 	m_SCORE.setOutlineColor(sf::Color::Black);//the outline color of the text 
-	m_SCORE.setOutlineThickness(2.0f);//the outline size of the text
+	m_SCORE.setOutlineThickness(3.0f);//the outline size of the text
 }
 
 /// <summary>
@@ -200,6 +213,9 @@ void Game::setupSprite()
 {
 	SetUpMinecart();
 	SetupCave();
+	Setup_Falling_Objects_1();
+	Setup_Falling_Objects_2();
+	Setup_Falling_Objects_3();
 }
 
 void Game::SetupCave()
@@ -276,6 +292,156 @@ void Game::AnimateCoveryerBelt()
 
 }
 
+void Game::Setup_Falling_Objects_1()
+{
+	srand((unsigned)time(0));
+	int Number;
+	Number = (rand() % 3) + 1;
+
+	if (Number == 1)
+	{
+		m_Rock_1.setFillColor(sf::Color::Magenta);
+		m_Rock_1.setRadius(15.0f);
+		m_Rock_1.setOrigin(15.0f, 15.0f);
+		m_Rock_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_Rock_1.setPosition(m_Rock_Location_1);
+	}
+	if (Number == 2)
+	{
+		m_Diamond_1.setFillColor(sf::Color::Blue);
+		m_Diamond_1.setRadius(15.0f);
+		m_Diamond_1.setOrigin(15.0f, 15.0f);
+		m_Diamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_Diamond_1.setPosition(m_Diamond_Location_1);
+	}
+	if (Number == 3)
+	{
+		m_FakeDiamond_1.setFillColor(sf::Color::Red);
+		m_FakeDiamond_1.setRadius(15.0f);
+		m_FakeDiamond_1.setOrigin(15.0f, 15.0f);
+		m_FakeDiamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
+	}
+
+}
+
+void Game::Setup_Falling_Objects_2()
+{
+	srand((unsigned)time(0));
+	int Number;
+	Number = (rand() % 3) + 1;
+
+	if (Number == 3)
+	{
+		m_Rock_2.setFillColor(sf::Color::Magenta);
+		m_Rock_2.setRadius(15.0f);
+		m_Rock_2.setOrigin(15.0f, 15.0f);
+		m_Rock_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_Rock_2.setPosition(m_Rock_Location_2);
+	}
+	if (Number == 2)
+	{
+		m_Diamond_2.setFillColor(sf::Color::Blue);
+		m_Diamond_2.setRadius(15.0f);
+		m_Diamond_2.setOrigin(15.0f, 15.0f);
+		m_Diamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_Diamond_2.setPosition(m_Diamond_Location_2);
+	}
+	if (Number == 1)
+	{
+		m_FakeDiamond_2.setFillColor(sf::Color::Red);
+		m_FakeDiamond_2.setRadius(15.0f);
+		m_FakeDiamond_2.setOrigin(15.0f, 15.0f);
+		m_FakeDiamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
+	}
+
+}
+void Game::Setup_Falling_Objects_3()
+{
+	srand((unsigned)time(0));
+	int Number;
+	Number = (rand() % 3) + 1;
+
+	if (Number == 2)
+	{
+		m_Rock_3.setFillColor(sf::Color::Magenta);
+		m_Rock_3.setRadius(15.0f);
+		m_Rock_3.setOrigin(15.0f, 15.0f);
+		m_Rock_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+		m_Rock_3.setPosition(m_Rock_Location_3);
+	}
+	if (Number == 1)
+	{
+		m_Diamond_3.setFillColor(sf::Color::Blue);
+		m_Diamond_3.setRadius(15.0f);
+		m_Diamond_3.setOrigin(15.0f, 15.0f);
+		m_Diamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+		m_Diamond_3.setPosition(m_Diamond_Location_3);
+	}
+	if (Number == 3)
+	{
+		m_FakeDiamond_3.setFillColor(sf::Color::Red);
+		m_FakeDiamond_3.setRadius(15.0f);
+		m_FakeDiamond_3.setOrigin(15.0f, 15.0f);
+		m_FakeDiamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+		m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
+	}
+
+}
+
+void Game::move_Falling_Objects()
+{
+	const float speed = 3.0f;
+
+	if (m_Rock_Location_1.y <= Screen_Height && m_Rock_Location_2.y <= Screen_Height && m_Rock_Location_3.y <= Screen_Height)
+	{
+		m_Rock_Velocity_1.y = speed;
+		m_Rock_Velocity_2.y = speed;
+		m_Rock_Velocity_3.y = speed;
+	}
+	m_Rock_1.setPosition(m_Rock_Location_1);
+	m_Rock_Location_1 += m_Rock_Velocity_1;
+	m_Rock_2.setPosition(m_Rock_Location_2);
+	m_Rock_Location_2 += m_Rock_Velocity_2;
+	m_Rock_3.setPosition(m_Rock_Location_3);
+	m_Rock_Location_3 += m_Rock_Velocity_3;
+
+	if (m_Diamond_Location_1.y <= Screen_Height && m_Diamond_Location_2.y <= Screen_Height && m_Diamond_Location_3.y <= Screen_Height)
+	{
+		m_Diamon_Velocity_1.y = speed;
+		m_Diamon_Velocity_2.y = speed;
+		m_Diamon_Velocity_3.y = speed;
+	}
+
+	m_Diamond_1.setPosition(m_Diamond_Location_1);
+	m_Diamond_Location_1 += m_Diamon_Velocity_1;
+
+	m_Diamond_2.setPosition(m_Diamond_Location_2);
+	m_Diamond_Location_2 += m_Diamon_Velocity_2;
+
+	m_Diamond_3.setPosition(m_Diamond_Location_3);
+	m_Diamond_Location_3 += m_Diamon_Velocity_3;
+
+	if (m_FakeDiamond_Location_1.y <= Screen_Height && m_FakeDiamond_Location_2.y <= Screen_Height && m_FakeDiamond_Location_3.y <= Screen_Height)
+	{
+		m_FakeDiamond_Velocity_1.y = speed;
+		m_FakeDiamond_Velocity_2.y = speed;
+		m_FakeDiamond_Velocity_3.y = speed;
+
+	}
+	m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
+	m_FakeDiamond_Location_1 += m_FakeDiamond_Velocity_1;
+	m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
+	m_FakeDiamond_Location_2 += m_FakeDiamond_Velocity_2;
+	m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
+	m_FakeDiamond_Location_3 += m_FakeDiamond_Velocity_3;
+
+
+
+	
+}
+
 void Game::SetUpCoveyerBelt()
 {
 
@@ -348,9 +514,9 @@ void Game::SetUpMinecart()
 	}
 
 	m_Minecart_Rail_Sprite.setTexture(m_Minecart_Rail_Texture);
-	m_Minecart_Rail_Location = sf::Vector2f{0.0f, 733.0f};
+	m_Minecart_Rail_Location = sf::Vector2f{0.0f, 650.0f};
     m_Minecart_Rail_Sprite.setPosition(m_Minecart_Rail_Location);
-	m_Minecart_Rail_Sprite.setScale(4.5f, 4.5f);
+	m_Minecart_Rail_Sprite.setScale(4.5f, 9.5f);
 	m_Minecart_Rail_Texture.setRepeated(true);
 	m_Minecart_Rail_Sprite.setTextureRect(sf::IntRect{ 0,0,200,30});
     

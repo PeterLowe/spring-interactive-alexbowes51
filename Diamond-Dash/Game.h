@@ -16,8 +16,8 @@
 
 float VectorLength(sf::Vector2f);
 
-const int Screen_Width = 1000;
-const int Screen_Height  = 800;
+const int Screen_Width = 1000;//screen width 
+const int Screen_Height  = 800;//screen height 
 
 using namespace sf;
 
@@ -49,34 +49,38 @@ private:
 	
 	void setupFontAndText();//sets up text and fonts 
 	void setupSprite();//sets up sprites 
-	void SetUpCoveyerBelt();//sets ups converyer belts 
 	void SetUpMinecart();//sets up minecart 
 	void MoveMinecart();//moves minecart 
 	void AnimateMinecart();//animates minecart 
 	void SetupCave();//sets up cave 
 	void AnimateCave();//animates cave 
+	void SetUpCoveyerBelt();//sets ups converyer belts 
 	void AnimateCoveryerBelt();//animates coveryer belt 
+	void Setup_Falling_Objects_1();
+	void Setup_Falling_Objects_2();
+	void Setup_Falling_Objects_3();
+	void move_Falling_Objects();
 
 
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_CYBER_font; // font used by message
-	sf::Text m_Title; // text used for message on screen
-	sf::Text m_LIVES;
-	sf::Text m_SCORE;
+	sf::Text m_Title; //Game Title 
+	sf::Text m_LIVES;//Lives counter 
+	sf::Text m_SCORE;//Score counter 
 
-	sf::Sprite m_ConveryBelt_Sprite_1;
-	sf::Sprite m_ConveryBelt_Sprite_2;
-	sf::Sprite m_ConveryBelt_Sprite_3;//Convery belt sprite 
-	sf::Texture m_ConveryBelt_Texture_1;
-	sf::Texture m_ConveryBelt_Texture_2;
-	sf::Texture m_ConveryBelt_Texture_3;//Convery belt Texture 
-	sf::Vector2f m_ConveryBeltLocation_1;//Convery belt Location
-	sf::Vector2f m_ConveryBeltLocation_2;
-	sf::Vector2f m_ConveryBeltLocation_3;
+	sf::Sprite m_ConveryBelt_Sprite_1;//Convery belt sprite 1
+	sf::Sprite m_ConveryBelt_Sprite_2;//Convery belt sprite 2
+	sf::Sprite m_ConveryBelt_Sprite_3;//Convery belt sprite 3
+	sf::Texture m_ConveryBelt_Texture_1;//Convery belt Texture 1
+	sf::Texture m_ConveryBelt_Texture_2;//Convery belt Texture 2
+	sf::Texture m_ConveryBelt_Texture_3;//Convery belt Texture 3
+	sf::Vector2f m_ConveryBeltLocation_1;//Convery belt Location 1
+	sf::Vector2f m_ConveryBeltLocation_2;//Convery belt Location 2
+	sf::Vector2f m_ConveryBeltLocation_3;//Convery belt Location 3 
 	sf::RectangleShape m_ConveryBelt_Shape_1;//Convery belt rectangle shape 1
-	sf::RectangleShape m_ConveryBelt_Shape_2;
-	sf::RectangleShape m_ConveryBelt_Shape_3;
+	sf::RectangleShape m_ConveryBelt_Shape_2;//Convery belt rectangle shape 2
+	sf::RectangleShape m_ConveryBelt_Shape_3;//Convery belt rectangle shape 3
 
 	
 
@@ -96,22 +100,51 @@ private:
 	sf::Sprite m_Cave_Sprite;//Cave sprite
 	sf::Texture m_Cave_Texture;//Cave texture
 
-    int m_ConveryerFrame{ -1 };
-	float m_Converyer_Frame_Increment = 0.02f;
-	const int m_ConveryerFrames = 2;
-	float m_CB_FrameCount = 0.0f;
+	sf::CircleShape m_Rock_1;
+	sf::Vector2f m_Rock_Location_1;
+	sf::Vector2f m_Rock_Velocity_1;
+	sf::CircleShape m_Rock_2;
+	sf::Vector2f m_Rock_Location_2;
+	sf::Vector2f m_Rock_Velocity_2;
+	sf::CircleShape m_Rock_3;
+	sf::Vector2f m_Rock_Location_3;
+	sf::Vector2f m_Rock_Velocity_3;
+
+	sf::CircleShape m_Diamond_1;
+	sf::Vector2f m_Diamond_Location_1;
+	sf::Vector2f m_Diamon_Velocity_1;
+	sf::CircleShape m_Diamond_2;
+	sf::Vector2f m_Diamond_Location_2;
+	sf::Vector2f m_Diamon_Velocity_2;
+	sf::CircleShape m_Diamond_3;
+	sf::Vector2f m_Diamond_Location_3;
+	sf::Vector2f m_Diamon_Velocity_3;
+
+	sf::CircleShape m_FakeDiamond_1;
+	sf::Vector2f m_FakeDiamond_Location_1; 
+	sf::Vector2f m_FakeDiamond_Velocity_1;
+	sf::CircleShape m_FakeDiamond_2;
+	sf::Vector2f m_FakeDiamond_Location_2;
+	sf::Vector2f m_FakeDiamond_Velocity_2;
+	sf::CircleShape m_FakeDiamond_3;
+	sf::Vector2f m_FakeDiamond_Location_3;
+	sf::Vector2f m_FakeDiamond_Velocity_3;
+
+
+    int m_ConveryerFrame{ -1 };//will change the converveyer belt sprite 
+	float m_Converyer_Frame_Increment = 0.02f;//will increase the Converyer frame count 
+	const int m_ConveryerFrames = 2;//the max amount frames
+	float m_CB_FrameCount = 0.0f;//Converyer frame count 
 
     int m_MinecartFrame{ -1 };//will start changing the sprite 
-	const int m_MinecartFrames = 4;//the amount of frames 
-    float m_MC_FrameCount = 0.0f;
+	const int m_MinecartFrames = 4;//the max amount of frames 
+    float m_MC_FrameCount = 0.0f;//Minecart count 
     float m_Minecart_FrameIncrement = 0.05f;//frame increament 
 
-	float m_CV_FrameCount = 0.0f;
-    const int m_CaveFrames = 7;//Amount of frame 
-	int m_CaveFrame{ -1 };//Will change sprite 
-	float m_Cave_Frame_Increment = 0.025f;//frame increas
-
-	
+	float m_CV_FrameCount = 0.0f;//Converyer count 
+    const int m_CaveFrames = 7;//max amount of frames of cave 
+	int m_CaveFrame{ -1 };//Will change sprite straight away 
+	float m_Cave_Frame_Increment = 0.025f;//frame increase
 
 	bool m_Graphics{ false };
 	bool m_exitGame; // control exiting game
