@@ -56,6 +56,9 @@ private:
 	void AnimateCave();//animates cave 
 	void SetUpCoveyerBelt();//sets ups converyer belts 
 	void AnimateCoveryerBelt();//animates coveryer belt 
+	void AnimateRocks();
+	void AnimateDiamond();
+	void AnimateFakeDiamond();
 	void Setup_Objects();
 	void Setup_Falling_Objects_1();
 	void Setup_Falling_Objects_2();
@@ -168,6 +171,12 @@ private:
     const int m_CaveFrames = 7;//max amount of frames of cave 
 	int m_CaveFrame{ -1 };//Will change sprite straight away 
 	float m_Cave_Frame_Increment = 0.025f;//frame increase
+
+	int m_DiamondFrame{ -1 };
+	const int m_DiamondFrames = 7;
+	float m_D_FrameCount = 0.0f;
+	float m_Diamond_FrameIncrement = 0.1f;
+
 
 	bool m_Graphics{ false };
 	bool m_exitGame; // control exiting game

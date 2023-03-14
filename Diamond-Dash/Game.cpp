@@ -121,7 +121,8 @@ void Game::update(sf::Time t_deltaTime)
 		m_window.close();
 	}
 
-	move_Falling_Objects(); 
+	move_Falling_Objects();
+	AnimateDiamond();
 	AnimateCoveryerBelt();
 	AnimateCave();
 	AnimateMinecart();
@@ -304,6 +305,42 @@ void Game::AnimateCoveryerBelt()
 		m_ConveryBelt_Sprite_3.setTextureRect(sf::IntRect{ frame * 44,0,Frame_Width,Frame_Height });
 		
 	}
+
+}
+
+void Game::AnimateRocks()
+{
+
+}
+
+void Game::AnimateDiamond()
+{
+	int frame;
+	const int Frame_Width = 11;
+	const int Frame_Height = 26;
+	m_D_FrameCount += m_Diamond_FrameIncrement;
+	frame = static_cast<int>(m_D_FrameCount);
+	if (frame >= m_DiamondFrames)
+	{
+		frame = 0;
+		m_D_FrameCount = 0;
+	}
+	if (frame != m_DiamondFrame)
+	{
+		m_DiamondFrame = frame;
+		m_Diamond_Sprite_1.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+		m_Diamond_Sprite_2.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+		m_Diamond_Sprite_3.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+
+	}
+
+}
+
+void Game::AnimateFakeDiamond()
+{
+
+
+
 
 }
 
