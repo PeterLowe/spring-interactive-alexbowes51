@@ -56,18 +56,21 @@ private:
 	void AnimateCave();//animates cave 
 	void SetUpCoveyerBelt();//sets ups converyer belts 
 	void AnimateCoveryerBelt();//animates coveryer belt 
+	void Setup_Objects();
 	void Setup_Falling_Objects_1();
 	void Setup_Falling_Objects_2();
 	void Setup_Falling_Objects_3();
 	void move_Falling_Objects();
-
+	void check_Catch(sf::CircleShape m_Rock_1,sf::CircleShape m_Rock_2,sf::CircleShape m_Rock_3,sf::CircleShape m_Diamond_1, sf::CircleShape m_Diamond_2, sf::CircleShape m_Diamond_3,sf::CircleShape m_FakeDiamond_1, sf::CircleShape m_FakeDiamond_2, sf::CircleShape m_FakeDiamond_3, sf::RectangleShape& m_Minecart_Shape);
 
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_CYBER_font; // font used by message
 	sf::Text m_Title; //Game Title 
 	sf::Text m_LIVES;//Lives counter 
+	int m_Lives_count{ 5 };
 	sf::Text m_SCORE;//Score counter 
+	int m_Score_count{ 0 };
 
 	sf::Sprite m_ConveryBelt_Sprite_1;//Convery belt sprite 1
 	sf::Sprite m_ConveryBelt_Sprite_2;//Convery belt sprite 2
@@ -82,6 +85,26 @@ private:
 	sf::RectangleShape m_ConveryBelt_Shape_2;//Convery belt rectangle shape 2
 	sf::RectangleShape m_ConveryBelt_Shape_3;//Convery belt rectangle shape 3
 
+	sf::Sprite m_Rock_Sprite_1;
+	sf::Texture m_Rock_Texture_1;
+	sf::Sprite m_Rock_Sprite_2;
+	sf::Texture m_Rock_Texture_2;
+	sf::Sprite m_Rock_Sprite_3;
+	sf::Texture m_Rock_Texture_3;
+
+	sf::Sprite m_Diamond_Sprite_1;
+	sf::Texture m_Diamond_Texture_1;
+	sf::Sprite m_Diamond_Sprite_2;
+    sf::Texture m_Diamond_Texture_2;	
+	sf::Sprite m_Diamond_Sprite_3;
+	sf::Texture m_Diamond_Texture_3;
+
+	sf::Sprite m_FakeDiamond_Sprite_1;
+	sf::Texture m_FakeDiamond_Texture_1;
+	sf::Sprite m_FakeDiamond_Sprite_2;
+	sf::Texture m_FakeDiamond_Texture_2;
+	sf::Sprite m_FakeDiamond_Sprite_3;
+	sf::Texture m_FakeDiamond_Texture_3;
 	
 
 	sf::Sprite m_Minecart_Sprite;//Minecart Sprite 

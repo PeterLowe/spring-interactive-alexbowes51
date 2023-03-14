@@ -21,10 +21,11 @@
 Game::Game() :
 	m_window{ sf::VideoMode{Screen_Height, Screen_Width,32U }, "DIAMOND-DASH" },//will create a window the size of 1000 x 800
 	m_exitGame{false} //when true game will exit
-{
-	setupFontAndText(); // load font 
+{ 
 	setupSprite(); // load texture
-	SetUpCoveyerBelt();//loads the Conveyer Belts
+	setupFontAndText(); // load font 
+    SetUpCoveyerBelt();//loads the Conveyer Belts
+  
 }
 
 /// <summary>
@@ -119,11 +120,12 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
-	
+
+	move_Falling_Objects(); 
 	AnimateCoveryerBelt();
 	AnimateCave();
 	AnimateMinecart();
-	move_Falling_Objects(); 
+	check_Catch(m_Rock_1, m_Rock_2, m_Rock_3, m_Diamond_1, m_Diamond_2, m_Diamond_3, m_FakeDiamond_1, m_FakeDiamond_2, m_FakeDiamond_3,	 m_Minecart_Shape);
 }
 
 /// <summary>
@@ -139,9 +141,20 @@ void Game::render()
     m_window.draw(m_Cave_Sprite);
     m_window.draw(m_Minecart_Rail_Sprite);
     m_window.draw(m_Minecart_Sprite);
+    m_window.draw(m_Rock_Sprite_1);
+	m_window.draw(m_Rock_Sprite_2);
+	m_window.draw(m_Rock_Sprite_3);
+	m_window.draw(m_Diamond_Sprite_1);
+	m_window.draw(m_Diamond_Sprite_2);
+	m_window.draw(m_Diamond_Sprite_3);
+	m_window.draw(m_FakeDiamond_Sprite_1);
+	m_window.draw(m_FakeDiamond_Sprite_2);
+	m_window.draw(m_FakeDiamond_Sprite_3);
     m_window.draw(m_ConveryBelt_Sprite_1);
 	m_window.draw(m_ConveryBelt_Sprite_2);
 	m_window.draw(m_ConveryBelt_Sprite_3);
+
+	
 	}
 	else//if graphics is = false draw the rest 
 	{
@@ -193,7 +206,7 @@ void Game::setupFontAndText()
 	m_LIVES.setPosition(40.0f, 950.0f);// the position of the text
 	m_LIVES.setFillColor(sf::Color::Yellow);// the color of the text 
 	m_LIVES.setFont(m_CYBER_font);// the type of font for text
-	m_LIVES.setString("LIVES = ");// the message displayed for the text 
+	m_LIVES.setString("LIVES = 5");// the message displayed for the text 
 	m_LIVES.setOutlineColor(sf::Color::Black);//the outline color of the text 
 	m_LIVES.setOutlineThickness(3.0f);//the size of the outline for text 
 
@@ -201,7 +214,7 @@ void Game::setupFontAndText()
 	m_SCORE.setPosition(40.0f, 900.0f);// the position of the text
 	m_SCORE.setFillColor(sf::Color::Yellow);// the color of the text 
 	m_SCORE.setFont(m_CYBER_font);// the type of font 
-	m_SCORE.setString("SCORE = ");// the message displayed for the text
+	m_SCORE.setString("SCORE = 000");// the message displayed for the text
 	m_SCORE.setOutlineColor(sf::Color::Black);//the outline color of the text 
 	m_SCORE.setOutlineThickness(3.0f);//the outline size of the text
 }
@@ -213,9 +226,11 @@ void Game::setupSprite()
 {
 	SetUpMinecart();
 	SetupCave();
+    Setup_Objects();
 	Setup_Falling_Objects_1();
 	Setup_Falling_Objects_2();
 	Setup_Falling_Objects_3();
+	
 }
 
 void Game::SetupCave()
@@ -292,35 +307,71 @@ void Game::AnimateCoveryerBelt()
 
 }
 
+void Game::Setup_Objects()
+{
+	
+}
+
 void Game::Setup_Falling_Objects_1()
 {
-	srand((unsigned)time(0));
-	int Number;
-	Number = (rand() % 3) + 1;
 
-	if (Number == 1)
+	srand((unsigned)time(0));
+	int Number_1;
+	Number_1 = (rand() % 3) + 1;
+
+	if (Number_1 == 3)
 	{
+		if (!m_Rock_Texture_1.loadFromFile("ASSETS\\IMAGES\\Rock.png"))
+		{
+			std::cout << "ERROR with rock" << std::endl;
+		}
+		m_Rock_Sprite_1.setTexture(m_Rock_Texture_1);
+		m_Rock_Sprite_1.setTextureRect(sf::IntRect(0, 0, 26, 30));
+		m_Rock_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_Rock_Sprite_1.setScale(2.0f, 2.0f);
+
 		m_Rock_1.setFillColor(sf::Color::Magenta);
 		m_Rock_1.setRadius(15.0f);
 		m_Rock_1.setOrigin(15.0f, 15.0f);
-		m_Rock_Location_1 = sf::Vector2f{ 150.0f,100.0f };
 		m_Rock_1.setPosition(m_Rock_Location_1);
+		m_Rock_Sprite_1.setPosition(m_Rock_Location_1);
+
 	}
-	if (Number == 2)
+	if (Number_1 == 2)
 	{
+
+		if (!m_Diamond_Texture_1.loadFromFile("ASSETS\\IMAGES\\Diamond.png"))
+		{
+			std::cout << "ERROR with Diamond" << std::endl;
+		}
+		m_Diamond_Sprite_1.setTexture(m_Diamond_Texture_1);
+		m_Diamond_Sprite_1.setTextureRect(sf::IntRect(0, 0, 11, 26));
+		m_Diamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_Diamond_Sprite_1.setScale(4.0f, 4.0f);
+
 		m_Diamond_1.setFillColor(sf::Color::Blue);
 		m_Diamond_1.setRadius(15.0f);
 		m_Diamond_1.setOrigin(15.0f, 15.0f);
-		m_Diamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
 		m_Diamond_1.setPosition(m_Diamond_Location_1);
+		m_Diamond_Sprite_1.setPosition(m_Diamond_Location_1);
 	}
-	if (Number == 3)
+	if (Number_1 == 1)
 	{
+		if (!m_FakeDiamond_Texture_1.loadFromFile("ASSETS\\IMAGES\\FakeDiamond.png"))
+		{
+			std::cout << "ERROR with fake diamond" << std::endl;
+		}
+		m_FakeDiamond_Sprite_1.setTexture(m_FakeDiamond_Texture_1);
+		m_FakeDiamond_Sprite_1.setTextureRect(sf::IntRect(0, 0, 10, 30));
+		m_FakeDiamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_FakeDiamond_Sprite_1.setScale(4.5f, 4.5f);
+
+
 		m_FakeDiamond_1.setFillColor(sf::Color::Red);
 		m_FakeDiamond_1.setRadius(15.0f);
 		m_FakeDiamond_1.setOrigin(15.0f, 15.0f);
-		m_FakeDiamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
 		m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
+		m_FakeDiamond_Sprite_1.setPosition(m_FakeDiamond_Location_1);
 	}
 
 }
@@ -328,118 +379,240 @@ void Game::Setup_Falling_Objects_1()
 void Game::Setup_Falling_Objects_2()
 {
 	srand((unsigned)time(0));
-	int Number;
-	Number = (rand() % 3) + 1;
+	int Number_2;
+	Number_2 = (rand() % 3) + 1;
 
-	if (Number == 3)
+	if (Number_2 == 1)
 	{
+		if (!m_Rock_Texture_2.loadFromFile("ASSETS\\IMAGES\\Rock.png"))
+		{
+			std::cout << "ERROR with rock" << std::endl;
+		}
+		m_Rock_Sprite_2.setTexture(m_Rock_Texture_2);
+		m_Rock_Sprite_2.setTextureRect(sf::IntRect(0, 0, 26, 30));
+		m_Rock_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_Rock_Sprite_2.setScale(2.0f, 2.0f);
+
 		m_Rock_2.setFillColor(sf::Color::Magenta);
 		m_Rock_2.setRadius(15.0f);
 		m_Rock_2.setOrigin(15.0f, 15.0f);
-		m_Rock_Location_2 = sf::Vector2f{ 400.0f,100.0f };
 		m_Rock_2.setPosition(m_Rock_Location_2);
+		m_Rock_Sprite_2.setPosition(m_Rock_Location_2);
 	}
-	if (Number == 2)
+	if (Number_2 == 2)
 	{
+
+		if (!m_Diamond_Texture_2.loadFromFile("ASSETS\\IMAGES\\Diamond.png"))
+		{
+			std::cout << "ERROR with Diamond" << std::endl;
+		}
+		m_Diamond_Sprite_2.setTexture(m_Diamond_Texture_2);
+		m_Diamond_Sprite_2.setTextureRect(sf::IntRect(0, 0, 11, 26));
+		m_Diamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_Diamond_Sprite_2.setScale(4.0f, 4.0f);
+
 		m_Diamond_2.setFillColor(sf::Color::Blue);
 		m_Diamond_2.setRadius(15.0f);
 		m_Diamond_2.setOrigin(15.0f, 15.0f);
-		m_Diamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
 		m_Diamond_2.setPosition(m_Diamond_Location_2);
+		m_Diamond_Sprite_2.setPosition(m_Diamond_Location_2);
 	}
-	if (Number == 1)
+	if (Number_2 == 3)
 	{
+		if (!m_FakeDiamond_Texture_2.loadFromFile("ASSETS\\IMAGES\\FakeDiamond.png"))
+		{
+			std::cout << "ERROR with fake diamond" << std::endl;
+		}
+		m_FakeDiamond_Sprite_2.setTexture(m_FakeDiamond_Texture_2);
+		m_FakeDiamond_Sprite_2.setTextureRect(sf::IntRect(0, 0, 10, 30));
+		m_FakeDiamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_FakeDiamond_Sprite_2.setScale(4.5f, 4.5f);
+
 		m_FakeDiamond_2.setFillColor(sf::Color::Red);
 		m_FakeDiamond_2.setRadius(15.0f);
 		m_FakeDiamond_2.setOrigin(15.0f, 15.0f);
-		m_FakeDiamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
-		m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
+		m_FakeDiamond_Sprite_2.setPosition(m_FakeDiamond_Location_2);
+
 	}
 
 }
 void Game::Setup_Falling_Objects_3()
 {
-	srand((unsigned)time(0));
-	int Number;
-	Number = (rand() % 3) + 1;
 
-	if (Number == 2)
-	{
-		m_Rock_3.setFillColor(sf::Color::Magenta);
-		m_Rock_3.setRadius(15.0f);
-		m_Rock_3.setOrigin(15.0f, 15.0f);
-		m_Rock_Location_3 = sf::Vector2f{ 650.0f,100.0f };
-		m_Rock_3.setPosition(m_Rock_Location_3);
-	}
-	if (Number == 1)
-	{
-		m_Diamond_3.setFillColor(sf::Color::Blue);
-		m_Diamond_3.setRadius(15.0f);
-		m_Diamond_3.setOrigin(15.0f, 15.0f);
-		m_Diamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
-		m_Diamond_3.setPosition(m_Diamond_Location_3);
-	}
-	if (Number == 3)
-	{
-		m_FakeDiamond_3.setFillColor(sf::Color::Red);
-		m_FakeDiamond_3.setRadius(15.0f);
-		m_FakeDiamond_3.setOrigin(15.0f, 15.0f);
-		m_FakeDiamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
-		m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
-	}
+		srand((unsigned)time(0));
+		int Number_3;
+		Number_3 = (rand() % 3) + 1;
+
+		if (Number_3 == 1)
+		{
+			if (!m_Rock_Texture_3.loadFromFile("ASSETS\\IMAGES\\Rock.png"))
+			{
+				std::cout << "ERROR with rock" << std::endl;
+			}
+			m_Rock_Sprite_3.setTexture(m_Rock_Texture_3);
+			m_Rock_Sprite_3.setTextureRect(sf::IntRect(0, 0, 26, 30));
+			m_Rock_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+			m_Rock_Sprite_3.setScale(2.0f, 2.0f);
+
+			m_Rock_3.setFillColor(sf::Color::Magenta);
+			m_Rock_3.setRadius(15.0f);
+			m_Rock_3.setOrigin(15.0f, 15.0f);
+			m_Rock_3.setPosition(m_Rock_Location_3);
+			m_Rock_Sprite_3.setPosition(m_Rock_Location_3);
+		}
+		if (Number_3 == 3)
+		{
+			if (!m_Diamond_Texture_3.loadFromFile("ASSETS\\IMAGES\\Diamond.png"))
+			{
+				std::cout << "ERROR with Diamond" << std::endl;
+			}
+			m_Diamond_Sprite_3.setTexture(m_Diamond_Texture_3);
+			m_Diamond_Sprite_3.setTextureRect(sf::IntRect(0, 0, 11, 26));
+			m_Diamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+			m_Diamond_Sprite_3.setScale(4.0f, 4.0f);
+
+			m_Diamond_3.setFillColor(sf::Color::Blue);
+			m_Diamond_3.setRadius(15.0f);
+			m_Diamond_3.setOrigin(15.0f, 15.0f);
+			m_Diamond_3.setPosition(m_Diamond_Location_3);
+			m_Diamond_Sprite_3.setPosition(m_Diamond_Location_3);
+		}
+		if (Number_3 == 2)
+		{
+			if (!m_FakeDiamond_Texture_3.loadFromFile("ASSETS\\IMAGES\\FakeDiamond.png"))
+			{
+				std::cout << "ERROR with fake diamond" << std::endl;
+			}
+			m_FakeDiamond_Sprite_3.setTexture(m_FakeDiamond_Texture_3);
+			m_FakeDiamond_Sprite_3.setTextureRect(sf::IntRect(0, 0, 10, 30));
+			m_FakeDiamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+			m_FakeDiamond_Sprite_3.setScale(4.5f, 4.5f);
+
+
+			m_FakeDiamond_3.setFillColor(sf::Color::Red);
+			m_FakeDiamond_3.setRadius(15.0f);
+			m_FakeDiamond_3.setOrigin(15.0f, 15.0f);
+			m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
+			m_FakeDiamond_Sprite_3.setPosition(m_FakeDiamond_Location_3);
+		}
+
 
 }
 
-void Game::move_Falling_Objects()
+void Game::move_Falling_Objects() 
 {
-	const float speed = 3.0f;
+	const float speed = 2.0f;
 
-	if (m_Rock_Location_1.y <= Screen_Height && m_Rock_Location_2.y <= Screen_Height && m_Rock_Location_3.y <= Screen_Height)
+	if (m_Rock_Location_1.y <= Screen_Width && m_Rock_Location_2.y <= Screen_Width && m_Rock_Location_3.y <= Screen_Width)
 	{
 		m_Rock_Velocity_1.y = speed;
 		m_Rock_Velocity_2.y = speed;
-		m_Rock_Velocity_3.y = speed;
-	}
-	m_Rock_1.setPosition(m_Rock_Location_1);
-	m_Rock_Location_1 += m_Rock_Velocity_1;
-	m_Rock_2.setPosition(m_Rock_Location_2);
-	m_Rock_Location_2 += m_Rock_Velocity_2;
-	m_Rock_3.setPosition(m_Rock_Location_3);
-	m_Rock_Location_3 += m_Rock_Velocity_3;
+		m_Rock_Velocity_3.y = speed;	
+ 
+     m_Rock_1.setPosition(m_Rock_Location_1);
+	 m_Rock_Location_1 += m_Rock_Velocity_1;
+	 m_Rock_Sprite_1.setPosition(m_Rock_Location_1);
 
-	if (m_Diamond_Location_1.y <= Screen_Height && m_Diamond_Location_2.y <= Screen_Height && m_Diamond_Location_3.y <= Screen_Height)
+     m_Rock_2.setPosition(m_Rock_Location_2);
+	 m_Rock_Location_2 += m_Rock_Velocity_2;
+     m_Rock_Sprite_2.setPosition(m_Rock_Location_2);
+	
+	 m_Rock_3.setPosition(m_Rock_Location_3);
+	 m_Rock_Location_3 += m_Rock_Velocity_3;
+	 m_Rock_Sprite_3.setPosition(m_Rock_Location_3);
+	}
+
+   
+   
+
+	if (m_Diamond_Location_1.y <= Screen_Width && m_Diamond_Location_2.y <= Screen_Width && m_Diamond_Location_3.y <= Screen_Width)
 	{
 		m_Diamon_Velocity_1.y = speed;
 		m_Diamon_Velocity_2.y = speed;
 		m_Diamon_Velocity_3.y = speed;
-	}
 
-	m_Diamond_1.setPosition(m_Diamond_Location_1);
+
+    m_Diamond_1.setPosition(m_Diamond_Location_1);
 	m_Diamond_Location_1 += m_Diamon_Velocity_1;
+	m_Diamond_Sprite_1.setPosition(m_Diamond_Location_1);
 
 	m_Diamond_2.setPosition(m_Diamond_Location_2);
 	m_Diamond_Location_2 += m_Diamon_Velocity_2;
+	m_Diamond_Sprite_2.setPosition(m_Diamond_Location_2);
 
 	m_Diamond_3.setPosition(m_Diamond_Location_3);
 	m_Diamond_Location_3 += m_Diamon_Velocity_3;
+	m_Diamond_Sprite_3.setPosition(m_Diamond_Location_3);
+	}
 
-	if (m_FakeDiamond_Location_1.y <= Screen_Height && m_FakeDiamond_Location_2.y <= Screen_Height && m_FakeDiamond_Location_3.y <= Screen_Height)
+
+	
+
+	if (m_FakeDiamond_Location_1.y <= Screen_Width && m_FakeDiamond_Location_2.y <= Screen_Width && m_FakeDiamond_Location_3.y <= Screen_Width)
 	{
 		m_FakeDiamond_Velocity_1.y = speed;
 		m_FakeDiamond_Velocity_2.y = speed;
 		m_FakeDiamond_Velocity_3.y = speed;
 
-	}
-	m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
+
+
+    m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
 	m_FakeDiamond_Location_1 += m_FakeDiamond_Velocity_1;
+	m_FakeDiamond_Sprite_1.setPosition(m_FakeDiamond_Location_1);
+
 	m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
 	m_FakeDiamond_Location_2 += m_FakeDiamond_Velocity_2;
+	m_FakeDiamond_Sprite_2.setPosition(m_FakeDiamond_Location_2);
+
 	m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
 	m_FakeDiamond_Location_3 += m_FakeDiamond_Velocity_3;
+	m_FakeDiamond_Sprite_3.setPosition(m_FakeDiamond_Location_3);
 
-
-
+	}
 	
+
+}
+
+void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::CircleShape m_Rock_3, sf::CircleShape m_Diamond_1, sf::CircleShape m_Diamond_2, sf::CircleShape m_Diamond_3, sf::CircleShape m_FakeDiamond_1, sf::CircleShape m_FakeDiamond_2, sf::CircleShape m_FakeDiamond_3,sf::RectangleShape& m_Minecart_Shape)
+{
+	bool result = true;
+
+	sf::FloatRect Minecart = m_Minecart_Shape.getGlobalBounds();
+
+	sf::FloatRect Rock_1 = m_Rock_1.getGlobalBounds();
+	sf::FloatRect Rock_2 = m_Rock_2.getGlobalBounds();
+	sf::FloatRect Rock_3 = m_Rock_3.getGlobalBounds();
+
+	sf::FloatRect Diamond_1 = m_Diamond_1.getGlobalBounds();
+	sf::FloatRect Diamond_2 = m_Diamond_2.getGlobalBounds();
+	sf::FloatRect Diamond_3 = m_Diamond_3.getGlobalBounds();
+
+	sf::FloatRect FakeDiamond_1 = m_FakeDiamond_1.getGlobalBounds();
+	sf::FloatRect FakeDiamond_2 = m_FakeDiamond_2.getGlobalBounds();
+	sf::FloatRect FakeDiamond_3 = m_FakeDiamond_3.getGlobalBounds();
+
+	if (Diamond_1.intersects(Minecart)||Diamond_2.intersects(Minecart)||Diamond_3.intersects(Minecart))
+	{
+
+		m_Score_count = m_Score_count + 100;
+		m_SCORE.setString("SCORE = " + std::to_string(m_Score_count));
+
+	}
+	if (FakeDiamond_1.intersects(Minecart) || FakeDiamond_2.intersects(Minecart) || FakeDiamond_3.intersects(Minecart))
+	{
+		m_Lives_count--;
+		m_LIVES.setString("LIVES = " + std::to_string(m_Lives_count));
+	}
+	if (Rock_1.intersects(Minecart) || Rock_2.intersects(Minecart) || Rock_3.intersects(Minecart))
+	{
+		m_Score_count = m_Score_count - 50;
+		m_SCORE.setString("SCORE = " + std::to_string(m_Score_count));
+	}
+	if (Rock_1.intersects(Minecart) && Diamond_1.intersects(Minecart) && FakeDiamond_1.intersects(Minecart))
+	{
+         
+	}
+
 }
 
 void Game::SetUpCoveyerBelt()
