@@ -108,6 +108,7 @@ void Game::processKeys(sf::Event t_event)
 		m_Graphics = !m_Graphics;//m_graphics is set to false 
 	}
 	MoveMinecart();
+    
 }
 
 /// <summary>
@@ -122,11 +123,14 @@ void Game::update(sf::Time t_deltaTime)
 	}
 
 	move_Falling_Objects();
+    check_Catch(m_Rock_1, m_Rock_2, m_Rock_3, m_Diamond_1, m_Diamond_2, m_Diamond_3, m_FakeDiamond_1, m_FakeDiamond_2, m_FakeDiamond_3,	m_Minecart_Shape);
 	AnimateDiamond();
+	AnimateRocks();
+	AnimateFakeDiamond();
 	AnimateCoveryerBelt();
 	AnimateCave();
 	AnimateMinecart();
-	check_Catch(m_Rock_1, m_Rock_2, m_Rock_3, m_Diamond_1, m_Diamond_2, m_Diamond_3, m_FakeDiamond_1, m_FakeDiamond_2, m_FakeDiamond_3,	 m_Minecart_Shape);
+ 
 }
 
 /// <summary>
@@ -140,8 +144,6 @@ void Game::render()
     if (m_Graphics == true)//if graphics is = true draw all thats in the if statement 
 	{
     m_window.draw(m_Cave_Sprite);
-    m_window.draw(m_Minecart_Rail_Sprite);
-    m_window.draw(m_Minecart_Sprite);
     m_window.draw(m_Rock_Sprite_1);
 	m_window.draw(m_Rock_Sprite_2);
 	m_window.draw(m_Rock_Sprite_3);
@@ -151,11 +153,11 @@ void Game::render()
 	m_window.draw(m_FakeDiamond_Sprite_1);
 	m_window.draw(m_FakeDiamond_Sprite_2);
 	m_window.draw(m_FakeDiamond_Sprite_3);
+    m_window.draw(m_Minecart_Rail_Sprite);
+    m_window.draw(m_Minecart_Sprite);
     m_window.draw(m_ConveryBelt_Sprite_1);
 	m_window.draw(m_ConveryBelt_Sprite_2);
 	m_window.draw(m_ConveryBelt_Sprite_3);
-
-	
 	}
 	else//if graphics is = false draw the rest 
 	{
@@ -310,7 +312,24 @@ void Game::AnimateCoveryerBelt()
 
 void Game::AnimateRocks()
 {
+	int frame;
+	const int Frame_Width = 26;
+	const int Frame_Height = 30;
+	m_R_FrameCount += m_Rock_FrameIncrement;
+	frame = static_cast<int>(m_R_FrameCount);
+	if (frame >= m_RockFrames)
+	{
+		frame = 0;
+		m_R_FrameCount = 0;
+	}
+	if (frame != m_RockFrame)
+	{
+		m_RockFrame = frame;
+		m_Rock_Sprite_1.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+		m_Rock_Sprite_2.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+		m_Rock_Sprite_3.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
 
+	}
 }
 
 void Game::AnimateDiamond()
@@ -338,7 +357,23 @@ void Game::AnimateDiamond()
 
 void Game::AnimateFakeDiamond()
 {
-
+	int frame;
+	const int Frame_Width = 10;
+	const int Frame_Height = 30;
+	m_F_FrameCount += m_FAKE_FrameIncrement;
+	frame = static_cast<int>(m_F_FrameCount);
+	if (frame >= m_FAKEFrames)
+	{
+		frame = 0;
+		m_F_FrameCount = 0;
+	}
+	if (frame != m_FAKEFrame)
+	{
+		m_FAKEFrame = frame;
+		m_FakeDiamond_Sprite_1.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+		m_FakeDiamond_Sprite_2.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+		m_FakeDiamond_Sprite_3.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
+	}
 
 
 
@@ -392,7 +427,7 @@ void Game::Setup_Falling_Objects_1()
 		m_Diamond_1.setPosition(m_Diamond_Location_1);
 		m_Diamond_Sprite_1.setPosition(m_Diamond_Location_1);
 	}
-	if (Number_1 == 1)
+	if (Number_1 == 3)
 	{
 		if (!m_FakeDiamond_Texture_1.loadFromFile("ASSETS\\IMAGES\\FakeDiamond.png"))
 		{
@@ -497,7 +532,7 @@ void Game::Setup_Falling_Objects_3()
 			m_Rock_3.setPosition(m_Rock_Location_3);
 			m_Rock_Sprite_3.setPosition(m_Rock_Location_3);
 		}
-		if (Number_3 == 3)
+		if (Number_3 == 2)
 		{
 			if (!m_Diamond_Texture_3.loadFromFile("ASSETS\\IMAGES\\Diamond.png"))
 			{
@@ -514,7 +549,7 @@ void Game::Setup_Falling_Objects_3()
 			m_Diamond_3.setPosition(m_Diamond_Location_3);
 			m_Diamond_Sprite_3.setPosition(m_Diamond_Location_3);
 		}
-		if (Number_3 == 2)
+		if (Number_3 == 3)
 		{
 			if (!m_FakeDiamond_Texture_3.loadFromFile("ASSETS\\IMAGES\\FakeDiamond.png"))
 			{
@@ -538,79 +573,80 @@ void Game::Setup_Falling_Objects_3()
 
 void Game::move_Falling_Objects() 
 {
-	const float speed = 2.0f;
+	const float speed_1 = 2.0f;
+	const float speed_2 = 2.0f;
+	const float speed_3 = 2.0f;
 
-	if (m_Rock_Location_1.y <= Screen_Width && m_Rock_Location_2.y <= Screen_Width && m_Rock_Location_3.y <= Screen_Width)
+
+
+	if (m_Rock_Location_1.y < 10000 && m_Rock_Location_2.y < 10000 && m_Rock_Location_3.y < 10000)
 	{
-		m_Rock_Velocity_1.y = speed;
-		m_Rock_Velocity_2.y = speed;
-		m_Rock_Velocity_3.y = speed;	
- 
+		m_Rock_Velocity_1.y = speed_1;
+		m_Rock_Velocity_2.y = speed_1;
+		m_Rock_Velocity_3.y = speed_1;	
+
+     m_Rock_Location_1 += m_Rock_Velocity_1;
      m_Rock_1.setPosition(m_Rock_Location_1);
-	 m_Rock_Location_1 += m_Rock_Velocity_1;
 	 m_Rock_Sprite_1.setPosition(m_Rock_Location_1);
 
+     m_Rock_Location_2 += m_Rock_Velocity_2;
      m_Rock_2.setPosition(m_Rock_Location_2);
-	 m_Rock_Location_2 += m_Rock_Velocity_2;
-     m_Rock_Sprite_2.setPosition(m_Rock_Location_2);
-	
-	 m_Rock_3.setPosition(m_Rock_Location_3);
+	  m_Rock_Sprite_2.setPosition(m_Rock_Location_2);
+
 	 m_Rock_Location_3 += m_Rock_Velocity_3;
+	 m_Rock_3.setPosition(m_Rock_Location_3);
 	 m_Rock_Sprite_3.setPosition(m_Rock_Location_3);
+
 	}
 
-   
-   
-
-	if (m_Diamond_Location_1.y <= Screen_Width && m_Diamond_Location_2.y <= Screen_Width && m_Diamond_Location_3.y <= Screen_Width)
+	if (m_Diamond_Location_1.y < 10000 && m_Diamond_Location_2.y < 10000 && m_Diamond_Location_3.y <10000)
 	{
-		m_Diamon_Velocity_1.y = speed;
-		m_Diamon_Velocity_2.y = speed;
-		m_Diamon_Velocity_3.y = speed;
+		m_Diamon_Velocity_1.y = speed_2;
+		m_Diamon_Velocity_2.y = speed_2;
+		m_Diamon_Velocity_3.y = speed_2;
 
 
-    m_Diamond_1.setPosition(m_Diamond_Location_1);
+   
 	m_Diamond_Location_1 += m_Diamon_Velocity_1;
+     m_Diamond_1.setPosition(m_Diamond_Location_1);
 	m_Diamond_Sprite_1.setPosition(m_Diamond_Location_1);
 
+    m_Diamond_Location_2 += m_Diamon_Velocity_2;
 	m_Diamond_2.setPosition(m_Diamond_Location_2);
-	m_Diamond_Location_2 += m_Diamon_Velocity_2;
 	m_Diamond_Sprite_2.setPosition(m_Diamond_Location_2);
 
-	m_Diamond_3.setPosition(m_Diamond_Location_3);
 	m_Diamond_Location_3 += m_Diamon_Velocity_3;
+	m_Diamond_3.setPosition(m_Diamond_Location_3);
 	m_Diamond_Sprite_3.setPosition(m_Diamond_Location_3);
+	
+	
 	}
 
-
-	
-
-	if (m_FakeDiamond_Location_1.y <= Screen_Width && m_FakeDiamond_Location_2.y <= Screen_Width && m_FakeDiamond_Location_3.y <= Screen_Width)
+	if (m_FakeDiamond_Location_1.y < 10000 && m_FakeDiamond_Location_2.y < 10000 && m_FakeDiamond_Location_3.y < 10000)
 	{
-		m_FakeDiamond_Velocity_1.y = speed;
-		m_FakeDiamond_Velocity_2.y = speed;
-		m_FakeDiamond_Velocity_3.y = speed;
+		m_FakeDiamond_Velocity_1.y = speed_3;
+		m_FakeDiamond_Velocity_2.y = speed_3;
+		m_FakeDiamond_Velocity_3.y = speed_3;
 
+        m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
+	    m_FakeDiamond_Location_1 += m_FakeDiamond_Velocity_1;
+	    m_FakeDiamond_Sprite_1.setPosition(m_FakeDiamond_Location_1);
 
+	    m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
+	    m_FakeDiamond_Location_2 += m_FakeDiamond_Velocity_2;
+	    m_FakeDiamond_Sprite_2.setPosition(m_FakeDiamond_Location_2);
 
-    m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
-	m_FakeDiamond_Location_1 += m_FakeDiamond_Velocity_1;
-	m_FakeDiamond_Sprite_1.setPosition(m_FakeDiamond_Location_1);
+	    m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
+	    m_FakeDiamond_Location_3 += m_FakeDiamond_Velocity_3;
+	    m_FakeDiamond_Sprite_3.setPosition(m_FakeDiamond_Location_3);
 
-	m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
-	m_FakeDiamond_Location_2 += m_FakeDiamond_Velocity_2;
-	m_FakeDiamond_Sprite_2.setPosition(m_FakeDiamond_Location_2);
-
-	m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
-	m_FakeDiamond_Location_3 += m_FakeDiamond_Velocity_3;
-	m_FakeDiamond_Sprite_3.setPosition(m_FakeDiamond_Location_3);
-
+		
 	}
 	
 
 }
 
-void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::CircleShape m_Rock_3, sf::CircleShape m_Diamond_1, sf::CircleShape m_Diamond_2, sf::CircleShape m_Diamond_3, sf::CircleShape m_FakeDiamond_1, sf::CircleShape m_FakeDiamond_2, sf::CircleShape m_FakeDiamond_3,sf::RectangleShape& m_Minecart_Shape)
+void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::CircleShape m_Rock_3, sf::CircleShape m_Diamond_1, sf::CircleShape m_Diamond_2, sf::CircleShape m_Diamond_3, sf::CircleShape m_FakeDiamond_1, sf::CircleShape m_FakeDiamond_2, sf::CircleShape m_FakeDiamond_3, sf::RectangleShape& m_Minecart_Shape)
 {
 	bool result = true;
 
@@ -628,28 +664,99 @@ void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::C
 	sf::FloatRect FakeDiamond_2 = m_FakeDiamond_2.getGlobalBounds();
 	sf::FloatRect FakeDiamond_3 = m_FakeDiamond_3.getGlobalBounds();
 
-	if (Diamond_1.intersects(Minecart)||Diamond_2.intersects(Minecart)||Diamond_3.intersects(Minecart))
+	if (Diamond_1.intersects(Minecart) || Diamond_2.intersects(Minecart) || Diamond_3.intersects(Minecart))
 	{
 
 		m_Score_count = m_Score_count + 100;
 		m_SCORE.setString("SCORE = " + std::to_string(m_Score_count));
+		
 
 	}
 	if (FakeDiamond_1.intersects(Minecart) || FakeDiamond_2.intersects(Minecart) || FakeDiamond_3.intersects(Minecart))
 	{
 		m_Lives_count--;
 		m_LIVES.setString("LIVES = " + std::to_string(m_Lives_count));
+	
 	}
 	if (Rock_1.intersects(Minecart) || Rock_2.intersects(Minecart) || Rock_3.intersects(Minecart))
 	{
 		m_Score_count = m_Score_count - 50;
 		m_SCORE.setString("SCORE = " + std::to_string(m_Score_count));
+		
 	}
-	if (Rock_1.intersects(Minecart) && Diamond_1.intersects(Minecart) && FakeDiamond_1.intersects(Minecart))
+	if (Rock_1.intersects(Minecart) || Diamond_1.intersects(Minecart) || FakeDiamond_1.intersects(Minecart))
 	{
-         
-	}
+		m_Rock_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_Rock_1.setPosition(m_Rock_Location_1);
+		m_Rock_Sprite_1.setPosition(m_Rock_Location_1);
 
+		m_Diamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_Diamond_1.setPosition(m_Diamond_Location_1);
+		m_Diamond_Sprite_1.setPosition(m_Diamond_Location_1);
+
+		m_FakeDiamond_Location_1 = sf::Vector2f{ 150.0f,100.0f };
+		m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
+		m_FakeDiamond_Sprite_1.setPosition(m_FakeDiamond_Location_1);
+
+		
+	}
+	if (Rock_2.intersects(Minecart) || Diamond_2.intersects(Minecart) || FakeDiamond_2.intersects(Minecart))
+	{
+		m_Rock_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_Rock_2.setPosition(m_Rock_Location_2);
+		m_Rock_Sprite_2.setPosition(m_Rock_Location_2);
+
+		m_Diamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_Diamond_2.setPosition(m_Diamond_Location_2);
+		m_Diamond_Sprite_2.setPosition(m_Diamond_Location_2);
+
+		m_FakeDiamond_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
+		m_FakeDiamond_Sprite_2.setPosition(m_FakeDiamond_Location_2);
+
+		
+
+
+	}
+	if (Rock_3.intersects(Minecart) || Diamond_3.intersects(Minecart) || FakeDiamond_3.intersects(Minecart))
+	{
+		m_Rock_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+		m_Rock_3.setPosition(m_Rock_Location_3);
+		m_Rock_Sprite_3.setPosition(m_Rock_Location_3);
+
+
+		m_Diamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+		m_Diamond_3.setPosition(m_Diamond_Location_3);
+		m_Diamond_Sprite_3.setPosition(m_Diamond_Location_3);
+
+		m_FakeDiamond_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+		m_FakeDiamond_3.setPosition(m_FakeDiamond_Location_3);
+		m_FakeDiamond_Sprite_3.setPosition(m_FakeDiamond_Location_3);
+
+		
+	}
+	if (m_Rock_Location_1.y > Screen_Width || m_Diamond_Location_1.y > Screen_Width || m_FakeDiamond_Location_1.y > Screen_Width)
+	{
+		m_Rock_Location_1.y = (150.0f, 100.0f);
+		m_Diamond_Location_1.y = (150.0f, 100.0f);
+		m_FakeDiamond_Location_1.y = (150.0f, 100.0f);
+		
+    }
+	if (m_Rock_Location_2.y > Screen_Width || m_Diamond_Location_2.y > Screen_Width || m_FakeDiamond_Location_2.y > Screen_Width)
+	{
+		m_Rock_Location_2.y = ( 400.0f,100.0f );
+		m_Diamond_Location_2.y = ( 400.0f,100.0f );
+		m_FakeDiamond_Location_2.y = (400.0f, 100.0f);
+		
+	}
+	if (m_Rock_Location_3.y > Screen_Width || m_Diamond_Location_3.y > Screen_Width || m_FakeDiamond_Location_3.y > Screen_Width)
+	{
+		m_Rock_Location_3.y =( 650.0f,100.0f );
+        m_Diamond_Location_3.y = (650.0f,100.0f );
+		m_FakeDiamond_Location_3.y = ( 650.0f,100.0f );
+		
+	}
+	
 }
 
 void Game::SetUpCoveyerBelt()

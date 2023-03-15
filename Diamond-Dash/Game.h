@@ -116,7 +116,7 @@ private:
 	sf::RectangleShape m_Minecart_Shape;//Minecart rectangle shape 
 	sf::Vector2f m_Minecart_Shape_Location;
 	Direction m_Direction = Direction::None;//Direction of the Minecart 
-	float speed = 3.0f;// speed of minecart 
+	float speed = 5.0f;// speed of minecart 
 
 	sf::Sprite m_Minecart_Rail_Sprite;//Rail sprite 
 	sf::Texture m_Minecart_Rail_Texture;//Rail texture
@@ -176,6 +176,16 @@ private:
 	const int m_DiamondFrames = 7;
 	float m_D_FrameCount = 0.0f;
 	float m_Diamond_FrameIncrement = 0.1f;
+	
+	int m_RockFrame{ -1 };
+	const int m_RockFrames = 8;
+	float m_R_FrameCount = 0.0f;
+	float m_Rock_FrameIncrement = 0.2f;
+
+	int m_FAKEFrame{ -1 };
+	const int m_FAKEFrames = 8;
+	float m_F_FrameCount = 0.0f;
+	float m_FAKE_FrameIncrement = 0.1f;
 
 
 	bool m_Graphics{ false };
