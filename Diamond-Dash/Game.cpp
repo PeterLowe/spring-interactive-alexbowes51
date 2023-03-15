@@ -375,8 +375,6 @@ void Game::AnimateFakeDiamond()
 		m_FakeDiamond_Sprite_3.setTextureRect(sf::IntRect{ frame * 30,0,Frame_Width,Frame_Height });
 	}
 
-
-
 }
 
 void Game::Setup_Objects()
@@ -427,7 +425,7 @@ void Game::Setup_Falling_Objects_1()
 		m_Diamond_1.setPosition(m_Diamond_Location_1);
 		m_Diamond_Sprite_1.setPosition(m_Diamond_Location_1);
 	}
-	if (Number_1 == 3)
+	if (Number_1 == 1)
 	{
 		if (!m_FakeDiamond_Texture_1.loadFromFile("ASSETS\\IMAGES\\FakeDiamond.png"))
 		{
@@ -454,7 +452,7 @@ void Game::Setup_Falling_Objects_2()
 	int Number_2;
 	Number_2 = (rand() % 3) + 1;
 
-	if (Number_2 == 1)
+	if (Number_2 == 2)
 	{
 		if (!m_Rock_Texture_2.loadFromFile("ASSETS\\IMAGES\\Rock.png"))
 		{
@@ -471,7 +469,7 @@ void Game::Setup_Falling_Objects_2()
 		m_Rock_2.setPosition(m_Rock_Location_2);
 		m_Rock_Sprite_2.setPosition(m_Rock_Location_2);
 	}
-	if (Number_2 == 2)
+	if (Number_2 == 1)
 	{
 
 		if (!m_Diamond_Texture_2.loadFromFile("ASSETS\\IMAGES\\Diamond.png"))
@@ -532,7 +530,7 @@ void Game::Setup_Falling_Objects_3()
 			m_Rock_3.setPosition(m_Rock_Location_3);
 			m_Rock_Sprite_3.setPosition(m_Rock_Location_3);
 		}
-		if (Number_3 == 2)
+		if (Number_3 == 3)
 		{
 			if (!m_Diamond_Texture_3.loadFromFile("ASSETS\\IMAGES\\Diamond.png"))
 			{
@@ -549,7 +547,7 @@ void Game::Setup_Falling_Objects_3()
 			m_Diamond_3.setPosition(m_Diamond_Location_3);
 			m_Diamond_Sprite_3.setPosition(m_Diamond_Location_3);
 		}
-		if (Number_3 == 3)
+		if (Number_3 == 2)
 		{
 			if (!m_FakeDiamond_Texture_3.loadFromFile("ASSETS\\IMAGES\\FakeDiamond.png"))
 			{
@@ -698,11 +696,19 @@ void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::C
 		m_FakeDiamond_1.setPosition(m_FakeDiamond_Location_1);
 		m_FakeDiamond_Sprite_1.setPosition(m_FakeDiamond_Location_1);
 
+		if (m_Rock_Location_1.x > 650.0f || m_Diamond_Location_1.x > 650.0f || m_FakeDiamond_Location_1.x > 650.0f)
+		{
+			m_Rock_Location_1.x = 150.0f;
+			m_Diamond_Location_1.y = 150.0f;
+			m_FakeDiamond_Location_1.y = 150.0f;
+		}
+
 		
 	}
 	if (Rock_2.intersects(Minecart) || Diamond_2.intersects(Minecart) || FakeDiamond_2.intersects(Minecart))
 	{
 		m_Rock_Location_2 = sf::Vector2f{ 400.0f,100.0f };
+		m_Rock_Location_2.y + 250.0f;
 		m_Rock_2.setPosition(m_Rock_Location_2);
 		m_Rock_Sprite_2.setPosition(m_Rock_Location_2);
 
@@ -714,13 +720,12 @@ void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::C
 		m_FakeDiamond_2.setPosition(m_FakeDiamond_Location_2);
 		m_FakeDiamond_Sprite_2.setPosition(m_FakeDiamond_Location_2);
 
-		
-
 
 	}
 	if (Rock_3.intersects(Minecart) || Diamond_3.intersects(Minecart) || FakeDiamond_3.intersects(Minecart))
 	{
 		m_Rock_Location_3 = sf::Vector2f{ 650.0f,100.0f };
+		m_Rock_Location_3.y + 250.0f;
 		m_Rock_3.setPosition(m_Rock_Location_3);
 		m_Rock_Sprite_3.setPosition(m_Rock_Location_3);
 
