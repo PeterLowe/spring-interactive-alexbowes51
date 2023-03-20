@@ -180,6 +180,10 @@ void Game::render()
     m_window.draw(m_Title);
 	m_window.draw(m_LIVES);
 	m_window.draw(m_SCORE);
+	if (m_Lives_count == 0)
+	{
+		m_window.clear();
+	}
 	m_window.display();
 	
 }
