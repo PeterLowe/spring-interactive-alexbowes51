@@ -156,6 +156,9 @@ private:
 	sf::Vector2f m_FakeDiamond_Location_3;
 	sf::Vector2f m_FakeDiamond_Velocity_3;
 
+	sf::Texture m_Game_over_Texture;
+	sf::Sprite m_Game_over_Sprite;
+
 
     int m_ConveryerFrame{ -1 };//will change the converveyer belt sprite 
 	float m_Converyer_Frame_Increment = 0.02f;//will increase the Converyer frame count 

@@ -180,9 +180,10 @@ void Game::render()
     m_window.draw(m_Title);
 	m_window.draw(m_LIVES);
 	m_window.draw(m_SCORE);
-	if (m_Lives_count == 0)
+	if (m_Lives_count == 0||m_Score_count < 0)
 	{
 		m_window.clear();
+		m_window.draw(m_Game_over_Sprite);
 	}
 	m_window.display();
 	
@@ -237,6 +238,13 @@ void Game::setupSprite()
 	Setup_Falling_Objects_1();
 	Setup_Falling_Objects_2();
 	Setup_Falling_Objects_3();
+
+	if (!m_Game_over_Texture.loadFromFile("ASSETS\\IMAGES\\game-over.png"))
+	{
+		std::cout << "ERROR with Game over" << std::endl;
+	}
+	m_Game_over_Sprite.setTexture(m_Game_over_Texture);
+	m_Game_over_Sprite.setScale(16.0f, 20.0f);
 	
 }
 
