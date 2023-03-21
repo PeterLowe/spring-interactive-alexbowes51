@@ -71,15 +71,19 @@ private:
 
 	sf::Font m_CYBER_font; // font used by message
 
+	//Text Variables
 	sf::Text m_Title; //Game Title 
 	sf::Text m_LIVES;//Lives counter 
     sf::Text m_SCORE;//Score counter 
 	sf::Text m_Intro;//Instructions 
 	sf::Text m_Exit;//Exit
 	int m_Lives_count{ 5 };
-		int m_Score_count{ 0 };
+	int m_Score_count{ 0 };
 
 
+	//Sprites and Texture
+
+	//ConveryBelt 
 	sf::Sprite m_ConveryBelt_Sprite_1;//Convery belt sprite 1
 	sf::Sprite m_ConveryBelt_Sprite_2;//Convery belt sprite 2
 	sf::Sprite m_ConveryBelt_Sprite_3;//Convery belt sprite 3
@@ -93,6 +97,7 @@ private:
 	sf::RectangleShape m_ConveryBelt_Shape_2;//Convery belt rectangle shape 2
 	sf::RectangleShape m_ConveryBelt_Shape_3;//Convery belt rectangle shape 3
 
+	//Rocks
 	sf::Sprite m_Rock_Sprite_1;
 	sf::Texture m_Rock_Texture_1;
 	sf::Sprite m_Rock_Sprite_2;
@@ -100,6 +105,7 @@ private:
 	sf::Sprite m_Rock_Sprite_3;
 	sf::Texture m_Rock_Texture_3;
 
+	//Diamonds
 	sf::Sprite m_Diamond_Sprite_1;
 	sf::Texture m_Diamond_Texture_1;
 	sf::Sprite m_Diamond_Sprite_2;
@@ -107,6 +113,7 @@ private:
 	sf::Sprite m_Diamond_Sprite_3;
 	sf::Texture m_Diamond_Texture_3;
 
+	//FakeDiamonds
 	sf::Sprite m_FakeDiamond_Sprite_1;
 	sf::Texture m_FakeDiamond_Texture_1;
 	sf::Sprite m_FakeDiamond_Sprite_2;
@@ -114,7 +121,7 @@ private:
 	sf::Sprite m_FakeDiamond_Sprite_3;
 	sf::Texture m_FakeDiamond_Texture_3;
 	
-
+	//Minecarts
 	sf::Sprite m_Minecart_Sprite;//Minecart Sprite 
 	sf::Texture m_Minecart_Texture;//Minecart Texture
 	sf::Vector2f m_MinecartLocation;//Minecart Location 
@@ -122,6 +129,7 @@ private:
 	sf::Vector2f m_Minecart_Shape_Location;
 	Direction m_Direction = Direction::None;//Direction of the Minecart 
 	float speed = 5.0f;// speed of minecart 
+
 
 	sf::Sprite m_Minecart_Rail_Sprite;//Rail sprite 
 	sf::Texture m_Minecart_Rail_Texture;//Rail texture
@@ -168,39 +176,50 @@ private:
 	sf::Sprite m_Title_screen_Sprite;
 
 
+
+	//Animation Variables 
+
+	//convyer Belt
     int m_ConveryerFrame{ -1 };//will change the converveyer belt sprite 
 	float m_Converyer_Frame_Increment = 0.02f;//will increase the Converyer frame count 
 	const int m_ConveryerFrames = 2;//the max amount frames
 	float m_CB_FrameCount = 0.0f;//Converyer frame count 
 
+	//Minecart 
     int m_MinecartFrame{ -1 };//will start changing the sprite 
 	const int m_MinecartFrames = 4;//the max amount of frames 
     float m_MC_FrameCount = 0.0f;//Minecart count 
     float m_Minecart_FrameIncrement = 0.05f;//frame increament 
 
+    //Cave 
 	float m_CV_FrameCount = 0.0f;//Converyer count 
     const int m_CaveFrames = 7;//max amount of frames of cave 
 	int m_CaveFrame{ -1 };//Will change sprite straight away 
 	float m_Cave_Frame_Increment = 0.025f;//frame increase
 
+	//Diamond
 	int m_DiamondFrame{ -1 };
 	const int m_DiamondFrames = 7;
 	float m_D_FrameCount = 0.0f;
 	float m_Diamond_FrameIncrement = 0.1f;
 	
+	//Rock
 	int m_RockFrame{ -1 };
 	const int m_RockFrames = 8;
 	float m_R_FrameCount = 0.0f;
 	float m_Rock_FrameIncrement = 0.2f;
 
+	//Fake Diamond
 	int m_FAKEFrame{ -1 };
 	const int m_FAKEFrames = 8;
 	float m_F_FrameCount = 0.0f;
 	float m_FAKE_FrameIncrement = 0.1f;
-
-	int Game_Mode = 1;
-
-	bool m_Graphics{ true };
+	/// <summary>
+	/// 
+	/// </summary>
+	
+	int Game_Mode = 1;//starts at Intro = 1 ,Gameplay = 2, death = 3
+    bool m_Graphics{ true };//Graphics true
 	bool m_exitGame; // control exiting game
 
 };

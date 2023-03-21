@@ -148,13 +148,13 @@ void Game::render()
    
 	m_window.clear(sf::Color::White);
     
-	if (Game_Mode == 1)
+	if (Game_Mode == 1)//Intro
 	{
 		m_window.draw(m_Title_screen_Sprite);
 		m_window.draw(m_Intro);
 	}
 
-	if (Game_Mode == 2)
+	if (Game_Mode == 2)//Gameplay
 	{
 		if (m_Graphics == true)//if graphics is = true draw all thats in the if statement 
 		{
@@ -196,13 +196,13 @@ void Game::render()
 		m_window.draw(m_LIVES);
 		m_window.draw(m_SCORE);
 		
-		if (m_Lives_count <= 0 || m_Score_count < 0)
+		if (m_Lives_count <= 0 || m_Score_count < 0)// if lives
 		{
 			m_window.clear();
 			Game_Mode = 3;
 		}
 	}
-	if (Game_Mode == 3)
+	if (Game_Mode == 3)//Ending
 	{
         m_window.draw(m_Game_over_Sprite);
 		m_window.draw(m_Exit);
@@ -229,7 +229,6 @@ void Game::setupFontAndText()
 	m_Title.setOutlineColor(sf::Color::Black);
 	m_Title.setFillColor(sf::Color::Blue);
 	m_Title.setOutlineThickness(3.5f);
-
 
 	m_LIVES.setFont(m_CYBER_font);
 	m_LIVES.setString("Diamond-Dash");
@@ -294,6 +293,7 @@ void Game::setupSprite()
 	 m_Title_screen_Sprite.setScale(16.0f, 20.0f);
 }
 
+
 void Game::SetupCave()
 {
 	if (!m_Cave_Texture.loadFromFile("ASSETS\\IMAGES\\Cave_Animation.png"))
@@ -305,6 +305,7 @@ void Game::SetupCave()
 	m_Cave_Sprite.setScale(8.0f, 10.0f);
 }
 
+//Animates cave
 void Game::AnimateCave()
 {
 	int frame;
@@ -324,6 +325,8 @@ void Game::AnimateCave()
 		m_Cave_Sprite.setTextureRect(sf::IntRect{ frame * 100,0,Frame_Width,Frame_Height });
 	}
 }
+
+//Animate Minecart
 void Game::AnimateMinecart()
 {
 	int frame;
@@ -345,7 +348,7 @@ void Game::AnimateMinecart()
 }
 
 
-
+//Animates Converyer 
 void Game::AnimateCoveryerBelt()
 {
 	int frame;
@@ -369,6 +372,7 @@ void Game::AnimateCoveryerBelt()
 
 }
 
+//Animtes Rock
 void Game::AnimateRocks()
 {
 	int frame;
@@ -391,6 +395,7 @@ void Game::AnimateRocks()
 	}
 }
 
+//Animates Diamonds
 void Game::AnimateDiamond()
 {
 	int frame;
@@ -414,6 +419,7 @@ void Game::AnimateDiamond()
 
 }
 
+//Animates Fake Diamonds 
 void Game::AnimateFakeDiamond()
 {
 	int frame;
@@ -441,6 +447,7 @@ void Game::Setup_Objects()
 	
 }
 
+//Randomly picks a object from 1-3 
 void Game::Setup_Falling_Objects_1()
 {
 
@@ -505,6 +512,7 @@ void Game::Setup_Falling_Objects_1()
 
 }
 
+//Randomly picks a object from 1-3 
 void Game::Setup_Falling_Objects_2()
 {
 	srand((unsigned)time(0));
@@ -565,6 +573,8 @@ void Game::Setup_Falling_Objects_2()
 	}
 
 }
+
+//Randomly picks a object from 1-3 
 void Game::Setup_Falling_Objects_3()
 {
 
@@ -628,6 +638,7 @@ void Game::Setup_Falling_Objects_3()
 
 }
 
+//Moves the Falling Objects 
 void Game::move_Falling_Objects() 
 {
 	const float speed_1 = 2.0f;
@@ -703,6 +714,7 @@ void Game::move_Falling_Objects()
 
 }
 
+//Checks if Falling Objects hit the minecart and boundry checks + Moves the Objects to each row.
 void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::CircleShape m_Rock_3, sf::CircleShape m_Diamond_1, sf::CircleShape m_Diamond_2, sf::CircleShape m_Diamond_3, sf::CircleShape m_FakeDiamond_1, sf::CircleShape m_FakeDiamond_2, sf::CircleShape m_FakeDiamond_3, sf::RectangleShape& m_Minecart_Shape)
 {
 	bool result = true;
@@ -744,7 +756,6 @@ void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::C
 	if (Rock_1.intersects(Minecart) || Diamond_1.intersects(Minecart) || FakeDiamond_1.intersects(Minecart))
 	{
 
-		
 		m_Rock_Location_1.x += 250;
 		m_Rock_1.setPosition(m_Rock_Location_1);
 		m_Rock_Sprite_1.setPosition(m_Rock_Location_1);
@@ -877,6 +888,7 @@ void Game::check_Catch(sf::CircleShape m_Rock_1, sf::CircleShape m_Rock_2, sf::C
 	
 }
 
+//Sets up Converyer Belt sprite
 void Game::SetUpCoveyerBelt()
 {
 
@@ -924,6 +936,7 @@ void Game::SetUpCoveyerBelt()
 
 }
 
+//Sets up Minecart + Rail Sprite 
 void Game::SetUpMinecart()
 {
 	m_Minecart_Shape.setPosition(450.0f, 710.0f);
@@ -961,6 +974,7 @@ void Game::SetUpMinecart()
 	m_Rail_Shape.setPosition(0.0f,800.0f);
 }
 
+//Moves Minecart + Boundary checking 
 void Game::MoveMinecart()
 {
 	sf::Vector2f Moving{ 0.0f,0.0f };
