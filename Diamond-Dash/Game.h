@@ -68,12 +68,17 @@ private:
 
 
 	sf::RenderWindow m_window; // main SFML window
+
 	sf::Font m_CYBER_font; // font used by message
+
 	sf::Text m_Title; //Game Title 
 	sf::Text m_LIVES;//Lives counter 
+    sf::Text m_SCORE;//Score counter 
+	sf::Text m_Intro;//Instructions 
+	sf::Text m_Exit;//Exit
 	int m_Lives_count{ 5 };
-	sf::Text m_SCORE;//Score counter 
-	int m_Score_count{ 0 };
+		int m_Score_count{ 0 };
+
 
 	sf::Sprite m_ConveryBelt_Sprite_1;//Convery belt sprite 1
 	sf::Sprite m_ConveryBelt_Sprite_2;//Convery belt sprite 2
@@ -159,6 +164,9 @@ private:
 	sf::Texture m_Game_over_Texture;
 	sf::Sprite m_Game_over_Sprite;
 
+	sf::Texture m_Title_screen_Texture;
+	sf::Sprite m_Title_screen_Sprite;
+
 
     int m_ConveryerFrame{ -1 };//will change the converveyer belt sprite 
 	float m_Converyer_Frame_Increment = 0.02f;//will increase the Converyer frame count 
@@ -190,8 +198,9 @@ private:
 	float m_F_FrameCount = 0.0f;
 	float m_FAKE_FrameIncrement = 0.1f;
 
+	int Game_Mode = 1;
 
-	bool m_Graphics{ false };
+	bool m_Graphics{ true };
 	bool m_exitGame; // control exiting game
 
 };
